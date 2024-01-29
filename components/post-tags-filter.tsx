@@ -1,6 +1,6 @@
 "use client";
 
-import { HTMLAttributes, useEffect, useState } from "react";
+import { HTMLAttributes, Suspense, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SelectOption } from "@/types";
 
@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 interface Props extends HTMLAttributes<HTMLDivElement> {
   tags: SelectOption[];
 }
-export function PostTagsFilter({ tags, className, ...props }: Props) {
+function PostTags({ tags, className, ...props }: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -52,5 +52,13 @@ export function PostTagsFilter({ tags, className, ...props }: Props) {
         </button>
       ))}
     </div>
+  );
+}
+
+export function PostTagsFilter({ ...props }: Props) {
+  return (
+    <Suspense>
+      <PostTags {...props} />
+    </Suspense>
   );
 }

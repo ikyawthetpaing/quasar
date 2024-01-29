@@ -1,6 +1,6 @@
 "use client";
 
-import { HTMLAttributes, useEffect, useState } from "react";
+import { HTMLAttributes, Suspense, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Category } from "@/types";
 
@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 interface Props extends HTMLAttributes<HTMLDivElement> {
   categories: Pick<Category, "label" | "value">[];
 }
-export function PostCategoryFilter({ categories, className, ...props }: Props) {
+export function PostCategory({ categories, className, ...props }: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -52,5 +52,13 @@ export function PostCategoryFilter({ categories, className, ...props }: Props) {
         )
       )}
     </div>
+  );
+}
+
+export function PostCategoryFilter({ ...props }: Props) {
+  return (
+    <Suspense>
+      <PostCategory {...props} />
+    </Suspense>
   );
 }

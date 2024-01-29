@@ -1,6 +1,6 @@
 "use client";
 
-import { HTMLAttributes, useEffect } from "react";
+import { HTMLAttributes, Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { getPosts } from "@/dev/posts";
 
@@ -12,7 +12,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   fixedCategory?: string;
 }
 
-export function PostList({ fixedCategory, className, ...props }: Props) {
+function Posts({ fixedCategory, className, ...props }: Props) {
   const searchParams = useSearchParams();
 
   const tag = searchParams.get("tag");
@@ -37,5 +37,13 @@ export function PostList({ fixedCategory, className, ...props }: Props) {
         <PostItem key={index} post={post} />
       ))}
     </div>
+  );
+}
+
+export function PostList({ ...props }: Props) {
+  return (
+    <Suspense>
+      <Posts {...props} />
+    </Suspense>
   );
 }
