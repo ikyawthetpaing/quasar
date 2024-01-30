@@ -1,10 +1,7 @@
-import { getPosts } from "@/dev/posts";
-
 import { baseConfig } from "@/config/base";
 import { postConfig } from "@/config/post";
 import { SearchPostForm } from "@/components/form/search-post-form";
 import { PostCategoryFilter } from "@/components/post-category-filter";
-import { PostItem } from "@/components/post-item";
 import { PostList } from "@/components/post-list";
 import { PostTagsFilter } from "@/components/post-tags-filter";
 
@@ -13,7 +10,7 @@ export default function BlogPage() {
     <div>
       <section className="grid gap-8">
         <div className="container">
-          <h1 className="text-center text-3xl font-bold">
+          <h1 className="font-heading text-center text-3xl font-bold">
             Explore Our Insights and Ideas
           </h1>
         </div>

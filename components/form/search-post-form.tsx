@@ -7,18 +7,29 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Icons } from "@/components/icons";
 
-interface Props extends HTMLAttributes<HTMLFormElement> {}
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  actionUrl?: string;
+  onSubmit?: () => void;
+  placeholder?: string;
+}
 
-function Form({ className, ...props }: Props) {
+function Form({
+  actionUrl,
+  onSubmit: onSubmitProp,
+  placeholder,
+  className,
+  ...props
+}: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const pathname = usePathname();
 
   const [query, setQuery] = useState<string>("");
 
@@ -39,29 +50,29 @@ function Form({ className, ...props }: Props) {
 
     const search = current.toString();
     const _query = search ? `?${search}` : "";
-    router.push(`/blog${_query}`, { scroll: false });
+    router.push(`${actionUrl || pathname}${_query}`, { scroll: false });
+
+    if (onSubmitProp) onSubmitProp();
   };
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className={cn(
-        "flex h-9 w-full max-w-56 overflow-hidden rounded-full border",
-        className
-      )}
-      {...props}
-    >
-      <Button size="icon" variant="ghost" className="h-full rounded-full">
-        <Icons.search className="size-4" />
-      </Button>
-      <Input
-        placeholder="Search posts"
-        className="h-full border-none bg-transparent pl-0 outline-none"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        autoFocus={props.autoFocus}
-      />
-    </form>
+    <div className={cn("w-full max-w-56", className)} {...props}>
+      <form
+        onSubmit={onSubmit}
+        className="flex h-9 overflow-hidden rounded-full border"
+      >
+        <Button size="icon" variant="ghost" className="h-full rounded-full">
+          <Icons.search className="size-4" />
+        </Button>
+        <Input
+          placeholder={placeholder ? placeholder : "Search posts"}
+          className="h-full border-none bg-transparent pl-0 outline-none"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          autoFocus={props.autoFocus}
+        />
+      </form>
+    </div>
   );
 }
 

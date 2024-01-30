@@ -21,14 +21,14 @@ export function SiteHeader({ navItems }: Props) {
         </div>
       </div>
       <div className="flex justify-center">
-        <Link href="/" className="text-xl font-bold">
+        <Link href="/" className="font-heading text-xl font-bold">
           {siteConfig.name}
         </Link>
       </div>
       <div className="flex justify-end">
-        <SearchPostForm className="hidden sm:flex" />
+        <SearchPostForm className="hidden sm:flex" actionUrl="/blog" />
         <div className="block sm:hidden">
-          <SearchPostDialog />
+          <SearchPostDialog actionUrl="/blog" />
         </div>
       </div>
     </header>

@@ -7,7 +7,7 @@ export default function CategoryPage() {
   return (
     <div>
       <section className="container grid gap-8">
-        <h1 className="text-center text-3xl font-bold">
+        <h1 className="font-heading text-center text-3xl font-bold">
           Explore Our Categories
         </h1>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-8">

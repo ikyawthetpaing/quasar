@@ -10,7 +10,7 @@ export function SiteFooter() {
       <div className="container py-8 text-sm">
         <div className="flex flex-wrap justify-between gap-8 pb-16">
           <div className="flex max-w-96 flex-col gap-6">
-            <Link href="/" className="text-xl font-bold">
+            <Link href="/" className="font-heading text-xl font-bold">
               {siteConfig.name}
             </Link>
             <p>{siteConfig.description}</p>

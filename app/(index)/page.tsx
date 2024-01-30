@@ -25,7 +25,7 @@ export default function Home() {
 function HeroSection() {
   return (
     <section className="container flex flex-col items-center gap-8 text-center">
-      <h1 className="max-w-5xl text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
+      <h1 className="font-heading max-w-5xl text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
         We&apos;re {siteConfig.name}. See our thoughts, stories and ideas.
       </h1>
       <p className="text-muted-foreground leading-normal sm:text-xl sm:leading-8">
@@ -57,7 +57,7 @@ function FeaturedPostsSection() {
   return (
     <section className="container grid gap-8">
       <div className="flex flex-wrap justify-between gap-8">
-        <h2 className="text-3xl font-bold">Featured Posts</h2>
+        <h2 className="font-heading text-3xl font-bold">Featured Posts</h2>
         <Link
           href={"/blog?tag=featured"}
           className={cn(buttonVariants({ variant: "secondary" }))}
@@ -77,7 +77,9 @@ function FeaturedPostsSection() {
 function LatestPosts() {
   return (
     <section className="grid gap-8">
-      <h2 className="text-center text-3xl font-bold">Our Latest Posts</h2>
+      <h2 className="font-heading text-center text-3xl font-bold">
+        Our Latest Posts
+      </h2>
       <div className="no-scrollbar container grid gap-8 overflow-x-scroll">
         <div className="flex justify-center">
           <PostCategoryFilter categories={baseConfig.categories} />
