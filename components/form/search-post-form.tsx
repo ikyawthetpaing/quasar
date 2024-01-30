@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCreateQueryString } from "@/hooks/create-query-string";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,7 @@ function Form({
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const { createQueryString } = useCreateQueryString();
 
   const [query, setQuery] = useState<string>("");
 
@@ -40,18 +42,9 @@ function Form({
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const current = new URLSearchParams(Array.from(searchParams.entries()));
-    if (!query) {
-      current.delete("query");
-    } else {
-      current.set("query", query);
-    }
-
-    const search = current.toString();
-    const _query = search ? `?${search}` : "";
-    router.push(`${actionUrl || pathname}${_query}`, { scroll: false });
-
+    router.push(`${actionUrl || pathname}?${createQueryString({ query })}`, {
+      scroll: false,
+    });
     if (onSubmitProp) onSubmitProp();
   };
 

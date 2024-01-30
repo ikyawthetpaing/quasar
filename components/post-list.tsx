@@ -25,8 +25,6 @@ function List({ fixedCategory, className, ...props }: Props) {
     query,
   });
 
-  useEffect(() => console.log("run useEffect"), []);
-
   return (
     <div
       className={cn(

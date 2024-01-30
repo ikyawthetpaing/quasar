@@ -2,6 +2,7 @@
 
 import { HTMLAttributes, Suspense, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCreateQueryString } from "@/hooks/create-query-string";
 import { Category } from "@/types";
 
 import { cn } from "@/lib/utils";
@@ -13,31 +14,24 @@ export function Filter({ categories, className, ...props }: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const { createQueryString } = useCreateQueryString();
 
-  const [category, setCategory] = useState<string>("");
+  const [category, setCategory] = useState<string | null>(null);
 
   useEffect(() => {
     const param = searchParams.get("category");
     if (param && categories.find(({ value }) => value === param)) {
       setCategory(param);
-    }
-  }, [categories, searchParams]);
-
-  useEffect(() => {
-    const current = new URLSearchParams(Array.from(searchParams.entries()));
-    if (!category) {
-      current.delete("category");
     } else {
-      current.set("category", category);
+      if (category) {
+        setCategory(null);
+      }
     }
-    const search = current.toString();
-    const query = search ? `?${search}` : "";
-    router.push(`${pathname}${query}`, { scroll: false });
-  }, [category, pathname, router, searchParams]);
+  }, [categories, category, searchParams]);
 
   return (
     <div className={cn("flex gap-8", className)} {...props}>
-      {[{ label: "All", value: "" }, ...categories].map(
+      {[{ label: "All", value: null }, ...categories].map(
         ({ label, value }, index) => (
           <button
             key={index}
@@ -45,7 +39,12 @@ export function Filter({ categories, className, ...props }: Props) {
               "text-muted-foreground underline-offset-4 hover:underline",
               { "text-foreground underline": value === category }
             )}
-            onClick={() => setCategory(value)}
+            onClick={() =>
+              router.push(
+                `${pathname}?${createQueryString({ category: value })}`,
+                { scroll: false }
+              )
+            }
           >
             {label}
           </button>

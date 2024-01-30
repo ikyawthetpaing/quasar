@@ -256,7 +256,6 @@ export function getPosts({
   category?: string | null;
   query?: string | null;
 }) {
-  console.log(amount, tag, category, query);
   let filteredPosts = [...posts];
 
   if (category) {
