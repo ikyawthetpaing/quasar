@@ -1,4 +1,11 @@
-import { Facebook, Instagram, Search, Twitter, Youtube } from "lucide-react";
+import {
+  Facebook,
+  Instagram,
+  Menu,
+  Search,
+  Twitter,
+  Youtube,
+} from "lucide-react";
 
 export const Icons = {
   facebook: Facebook,
@@ -6,4 +13,5 @@ export const Icons = {
   twitter: Twitter,
   youtube: Youtube,
   search: Search,
+  menu: Menu,
 };

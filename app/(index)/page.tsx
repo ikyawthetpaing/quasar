@@ -29,8 +29,10 @@ function HeroSection() {
         We&apos;re {siteConfig.name}. See our thoughts, stories and ideas.
       </h1>
       <p className="text-muted-foreground leading-normal sm:text-xl sm:leading-8">
-        {siteConfig.name} is a minimal mutipurpose blog. A beautiful way to
-        share stories with your growing audience.
+        {/* {siteConfig.name} is a minimal mutipurpose blog. A relaxing way to
+        explore our thoughts and ideas. */}
+        Discover a world of inspiration at {siteConfig.name}, a minimal
+        multipurpose blog.
       </p>
       <div className="mt-4">
         <EmailSubscribeForm />

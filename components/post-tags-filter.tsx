@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 interface Props extends HTMLAttributes<HTMLDivElement> {
   tags: SelectOption[];
 }
-function PostTags({ tags, className, ...props }: Props) {
+function Filter({ tags, className, ...props }: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -58,7 +58,7 @@ function PostTags({ tags, className, ...props }: Props) {
 export function PostTagsFilter({ ...props }: Props) {
   return (
     <Suspense>
-      <PostTags {...props} />
+      <Filter {...props} />
     </Suspense>
   );
 }

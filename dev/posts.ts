@@ -246,19 +246,28 @@ export const posts: Post[] = [
 ];
 
 export function getPosts({
-  amount,
+  amount = 6,
   tag = "latest",
   category,
+  query,
 }: {
-  amount: number;
-  tag?: string;
-  category?: string;
+  amount?: number;
+  tag?: string | null;
+  category?: string | null;
+  query?: string | null;
 }) {
+  console.log(amount, tag, category, query);
   let filteredPosts = [...posts];
 
   if (category) {
     filteredPosts = filteredPosts.filter(
       ({ category: _category }) => _category === category
+    );
+  }
+
+  if (query) {
+    filteredPosts = filteredPosts.filter(({ title }) =>
+      title.toLowerCase().includes(query.toLowerCase())
     );
   }
 
@@ -274,11 +283,9 @@ export function getPosts({
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
       );
       break;
-    default:
-      throw new Error("Invalid tag");
   }
 
-  console.log("call to getPosts");
+  console.log("Call to getPosts");
 
   return filteredPosts.slice(0, amount);
 }

@@ -15,6 +15,7 @@
     "test-all": "npm run check:format && npm run check:lint && npm run check:types && npm run build"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
     "@t3-oss/env-nextjs": "^0.8.0",
     "@vercel/analytics": "^1.1.2",

@@ -12,15 +12,17 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   fixedCategory?: string;
 }
 
-function Posts({ fixedCategory, className, ...props }: Props) {
+function List({ fixedCategory, className, ...props }: Props) {
   const searchParams = useSearchParams();
 
+  const query = searchParams.get("query");
   const tag = searchParams.get("tag");
   const category = fixedCategory ? fixedCategory : searchParams.get("category");
   const posts = getPosts({
     amount: 6,
-    category: category || undefined,
-    tag: tag || undefined,
+    category,
+    tag,
+    query,
   });
 
   useEffect(() => console.log("run useEffect"), []);
@@ -43,7 +45,7 @@ function Posts({ fixedCategory, className, ...props }: Props) {
 export function PostList({ ...props }: Props) {
   return (
     <Suspense>
-      <Posts {...props} />
+      <List {...props} />
     </Suspense>
   );
 }

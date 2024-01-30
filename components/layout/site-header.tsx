@@ -2,8 +2,10 @@ import Link from "next/link";
 import { NavItem } from "@/types";
 
 import { siteConfig } from "@/config/site";
-
-import { SearchPostForm } from "../form/search-post-form";
+import { SearchPostForm } from "@/components/form/search-post-form";
+import { MobileNavSheet } from "@/components/layout/mobile-nav-sheet";
+import { NavItems } from "@/components/layout/nav-items";
+import { SearchPostDialog } from "@/components/search-post-dialog";
 
 interface Props {
   navItems: NavItem[];
@@ -12,24 +14,22 @@ interface Props {
 export function SiteHeader({ navItems }: Props) {
   return (
     <header className="container grid grid-cols-3 items-center py-5">
-      <nav className="flex gap-4">
-        {navItems.map(({ label: title, url: href }, index) => (
-          <Link
-            key={index}
-            href={href}
-            className="underline-offset-4 hover:underline"
-          >
-            {title}
-          </Link>
-        ))}
-      </nav>
+      <div>
+        <NavItems items={navItems} className="hidden sm:flex" />
+        <div className="block sm:hidden">
+          <MobileNavSheet navItems={navItems} />
+        </div>
+      </div>
       <div className="flex justify-center">
         <Link href="/" className="text-xl font-bold">
           {siteConfig.name}
         </Link>
       </div>
       <div className="flex justify-end">
-        <SearchPostForm />
+        <SearchPostForm className="hidden sm:flex" />
+        <div className="block sm:hidden">
+          <SearchPostDialog />
+        </div>
       </div>
     </header>
   );

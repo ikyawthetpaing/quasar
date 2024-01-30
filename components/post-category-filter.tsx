@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 interface Props extends HTMLAttributes<HTMLDivElement> {
   categories: Pick<Category, "label" | "value">[];
 }
-export function PostCategory({ categories, className, ...props }: Props) {
+export function Filter({ categories, className, ...props }: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -58,7 +58,7 @@ export function PostCategory({ categories, className, ...props }: Props) {
 export function PostCategoryFilter({ ...props }: Props) {
   return (
     <Suspense>
-      <PostCategory {...props} />
+      <Filter {...props} />
     </Suspense>
   );
 }
