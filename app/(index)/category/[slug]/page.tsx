@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { getCategory } from "@/config/base";
@@ -12,6 +13,19 @@ interface Props {
   };
 }
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const category = getCategory(params.slug);
+
+  if (!category) {
+    return {};
+  }
+
+  return {
+    title: category.title,
+    description: category.description,
+  };
+}
+
 export default function CategoryPostsPage({ params }: Props) {
   const category = getCategory(params.slug);
 
@@ -20,7 +34,9 @@ export default function CategoryPostsPage({ params }: Props) {
   return (
     <div className="grid gap-8">
       <div className="container flex flex-col items-center gap-8">
-        <h1 className="font-heading text-3xl font-bold">{category.label}</h1>
+        <h1 className="font-heading text-center text-3xl font-bold">
+          {category.title}
+        </h1>
         <p className="max-w-xl text-center">{category.description}</p>
       </div>
       <div className="no-scrollbar container overflow-x-scroll">
@@ -29,10 +45,10 @@ export default function CategoryPostsPage({ params }: Props) {
       <div className="container flex justify-center">
         <SearchPostForm
           className="max-w-96"
-          placeholder={`Search posts in ${category.value}`}
+          placeholder={`Search posts in ${category.id}`}
         />
       </div>
-      <PostList fixedCategory={category.value} className="container" />
+      <PostList fixedCategory={category.id} className="container" />
     </div>
   );
 }

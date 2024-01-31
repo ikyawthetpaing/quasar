@@ -10,7 +10,10 @@ export type SelectOption = {
 
 export type NavItem = NavLink;
 
-export type Category = SelectOption & {
+export type Category = {
+  id: string;
+  name: string;
+  title: string;
   description: string;
   image: string;
 };

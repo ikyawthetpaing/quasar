@@ -1,14 +1,15 @@
 import { HTMLAttributes } from "react";
 import Image from "next/image";
+import { Category } from "@/types";
 
 import { cn } from "@/lib/utils";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  label: string;
-  image: string;
+  category: Pick<Category, "id" | "name" | "title" | "image">;
 }
 
-export function CategoryBox({ label, image, className, ...props }: Props) {
+export function CategoryBox({ category, className, ...props }: Props) {
+  const { name, title, image } = category;
   return (
     <div
       className={cn(
@@ -19,12 +20,13 @@ export function CategoryBox({ label, image, className, ...props }: Props) {
     >
       <Image
         src={image}
-        alt={label}
+        alt={title}
         fill
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        className="object-cover"
+        sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
       />
       <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl border bg-[rgba(0,0,0,0.25)] px-6 py-3 text-white backdrop-blur-sm dark:bg-[rgba(255,255,255,0.25)] dark:text-black">
-        {label}
+        {name}
       </p>
     </div>
   );

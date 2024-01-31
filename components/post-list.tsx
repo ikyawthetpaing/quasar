@@ -1,6 +1,6 @@
 "use client";
 
-import { HTMLAttributes, Suspense, useEffect } from "react";
+import { HTMLAttributes, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { getPosts } from "@/dev/posts";
 

@@ -29,8 +29,6 @@ function HeroSection() {
         We&apos;re {siteConfig.name}. See our thoughts, stories and ideas.
       </h1>
       <p className="text-muted-foreground leading-normal sm:text-xl sm:leading-8">
-        {/* {siteConfig.name} is a minimal mutipurpose blog. A relaxing way to
-        explore our thoughts and ideas. */}
         Discover a world of inspiration at {siteConfig.name}, a minimal
         multipurpose blog.
       </p>
@@ -44,9 +42,9 @@ function HeroSection() {
 function CategoriesSection() {
   return (
     <section className="no-scrollbar container flex gap-4 overflow-x-scroll">
-      {baseConfig.categories.map(({ label, value, image }, index) => (
-        <Link key={index} href={`/category/${value}`} className="flex-1">
-          <CategoryBox label={label} image={image} className="min-w-36" />
+      {baseConfig.categories.map((category, index) => (
+        <Link key={index} href={`/category/${category.id}`} className="flex-1">
+          <CategoryBox category={category} className="min-w-36" />
         </Link>
       ))}
     </section>

@@ -1,4 +1,4 @@
-import { BaseConfig, Category } from "@/types";
+import { BaseConfig } from "@/types";
 
 export const baseConfig: BaseConfig = {
   navItems: [
@@ -9,57 +9,65 @@ export const baseConfig: BaseConfig = {
   ],
   categories: [
     {
-      label: "Travel",
-      value: "travel",
+      name: "Travel",
+      id: "travel",
+      title: "Discover Destinations, Tips, and Inspiration",
       image: "/images/categories/travel.jpg",
       description:
         "Explore the world through the lens of travel enthusiasts. Journey to breathtaking destinations and discover hidden gems.",
     },
     {
-      label: "Art",
-      value: "art",
+      name: "Art",
+      id: "art",
+      title: "Immerse Yourself in Paintings, Sculptures, and More",
       image: "/images/categories/art.jpg",
       description:
         "Immerse yourself in the diverse world of art. From classic masterpieces to contemporary expressions, witness the beauty of human creativity.",
     },
     {
-      label: "Fashion",
-      value: "fashion",
+      name: "Fashion",
+      id: "fashion",
+      title: "Stay Trendy with Style Tips and Inspiration",
       image: "/images/categories/fashion.jpg",
       description:
         "Stay ahead of the style curve with the latest trends and fashion insights. Unleash your inner fashionista and express your unique style.",
     },
     {
-      label: "Lifestyle",
-      value: "lifestyle",
+      name: "Lifestyle",
+      id: "lifestyle",
+      title: "Tips for Health, Wellness, and Happiness",
       image: "/images/categories/lifestyle.jpg",
       description:
         "Achieve a balanced and fulfilling life with lifestyle tips and insights. Enhance your well-being and embrace a holistic approach to living.",
     },
     {
-      label: "Food",
-      value: "food",
+      name: "Food",
+      id: "food",
+      title: "Recipes, Reviews, and Culinary Adventures",
       image: "/images/categories/food.jpg",
       description:
         "Embark on a culinary journey to savor the flavors of different cuisines. From recipes to foodie adventures, indulge in the world of gastronomy.",
     },
     {
-      label: "Tech",
-      value: "tech",
+      name: "Tech",
+      id: "tech",
+      title: "Gadgets, Reviews, and Future Trends",
       image: "/images/categories/tech.jpg",
       description:
         "Stay on the cutting edge of technology. Explore innovations, gadgets, and the latest advancements shaping the future in the world of tech.",
     },
     {
-      label: "Health",
-      value: "health",
+      name: "Health",
+      id: "health",
+      title: "Tips for Nutrition, Fitness, and Well-being",
       image: "/images/categories/health.jpg",
       description:
         "Prioritize your well-being with health tips and practices. Nourish your mind and body for a healthier and more fulfilling life.",
     },
     {
-      label: "Science",
-      value: "science",
+      name: "Science",
+      id: "science",
+      title: "Discoveries, Explorations, and Mysteries of the Universe",
       image: "/images/categories/science.jpg",
       description:
         "Unravel the mysteries of the universe through scientific discoveries and explorations. Dive into the wonders of the cosmos and beyond.",
@@ -87,5 +95,7 @@ export const baseConfig: BaseConfig = {
 };
 
 export function getCategory(category: string) {
-  return baseConfig.categories.find(({ value }) => value === category) || null;
+  return (
+    baseConfig.categories.find(({ id: value }) => value === category) || null
+  );
 }

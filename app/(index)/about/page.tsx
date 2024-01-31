@@ -1,7 +1,14 @@
+import { Metadata } from "next";
 import Link from "next/link";
 import { authors } from "@/dev/authors";
 
 import { siteConfig } from "@/config/site";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Discover the essence of who we are. Learn about our journey, values, and passion for delivering engaging content that inspires and resonates with you.",
+};
 
 export default function AboutPage() {
   return (

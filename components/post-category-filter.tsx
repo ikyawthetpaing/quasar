@@ -8,7 +8,7 @@ import { Category } from "@/types";
 import { cn } from "@/lib/utils";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  categories: Pick<Category, "label" | "value">[];
+  categories: Pick<Category, "name" | "id">[];
 }
 export function Filter({ categories, className, ...props }: Props) {
   const searchParams = useSearchParams();
@@ -20,7 +20,7 @@ export function Filter({ categories, className, ...props }: Props) {
 
   useEffect(() => {
     const param = searchParams.get("category");
-    if (param && categories.find(({ value }) => value === param)) {
+    if (param && categories.find(({ id: value }) => value === param)) {
       setCategory(param);
     } else {
       if (category) {
@@ -31,25 +31,22 @@ export function Filter({ categories, className, ...props }: Props) {
 
   return (
     <div className={cn("flex gap-8", className)} {...props}>
-      {[{ label: "All", value: null }, ...categories].map(
-        ({ label, value }, index) => (
-          <button
-            key={index}
-            className={cn(
-              "text-muted-foreground underline-offset-4 hover:underline",
-              { "text-foreground underline": value === category }
-            )}
-            onClick={() =>
-              router.push(
-                `${pathname}?${createQueryString({ category: value })}`,
-                { scroll: false }
-              )
-            }
-          >
-            {label}
-          </button>
-        )
-      )}
+      {[{ name: "All", id: null }, ...categories].map(({ name, id }, index) => (
+        <button
+          key={index}
+          className={cn(
+            "text-muted-foreground underline-offset-4 hover:underline",
+            { "text-foreground underline": id === category }
+          )}
+          onClick={() =>
+            router.push(`${pathname}?${createQueryString({ category: id })}`, {
+              scroll: false,
+            })
+          }
+        >
+          {name}
+        </button>
+      ))}
     </div>
   );
 }
