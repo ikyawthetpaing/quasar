@@ -12,7 +12,7 @@ export const baseConfig: BaseConfig = {
       name: "Travel",
       id: "travel",
       title: "Discover Destinations, Tips, and Inspiration",
-      image: "/images/categories/travel.jpg",
+      image: "/image/category/travel.jpg",
       description:
         "Explore the world through the lens of travel enthusiasts. Journey to breathtaking destinations and discover hidden gems.",
     },
@@ -20,7 +20,7 @@ export const baseConfig: BaseConfig = {
       name: "Art",
       id: "art",
       title: "Immerse Yourself in Paintings, Sculptures, and More",
-      image: "/images/categories/art.jpg",
+      image: "/image/category/art.jpg",
       description:
         "Immerse yourself in the diverse world of art. From classic masterpieces to contemporary expressions, witness the beauty of human creativity.",
     },
@@ -28,7 +28,7 @@ export const baseConfig: BaseConfig = {
       name: "Fashion",
       id: "fashion",
       title: "Stay Trendy with Style Tips and Inspiration",
-      image: "/images/categories/fashion.jpg",
+      image: "/image/category/fashion.jpg",
       description:
         "Stay ahead of the style curve with the latest trends and fashion insights. Unleash your inner fashionista and express your unique style.",
     },
@@ -36,7 +36,7 @@ export const baseConfig: BaseConfig = {
       name: "Lifestyle",
       id: "lifestyle",
       title: "Tips for Health, Wellness, and Happiness",
-      image: "/images/categories/lifestyle.jpg",
+      image: "/image/category/lifestyle.jpg",
       description:
         "Achieve a balanced and fulfilling life with lifestyle tips and insights. Enhance your well-being and embrace a holistic approach to living.",
     },
@@ -44,7 +44,7 @@ export const baseConfig: BaseConfig = {
       name: "Food",
       id: "food",
       title: "Recipes, Reviews, and Culinary Adventures",
-      image: "/images/categories/food.jpg",
+      image: "/image/category/food.jpg",
       description:
         "Embark on a culinary journey to savor the flavors of different cuisines. From recipes to foodie adventures, indulge in the world of gastronomy.",
     },
@@ -52,7 +52,7 @@ export const baseConfig: BaseConfig = {
       name: "Tech",
       id: "tech",
       title: "Gadgets, Reviews, and Future Trends",
-      image: "/images/categories/tech.jpg",
+      image: "/image/category/tech.jpg",
       description:
         "Stay on the cutting edge of technology. Explore innovations, gadgets, and the latest advancements shaping the future in the world of tech.",
     },
@@ -60,7 +60,7 @@ export const baseConfig: BaseConfig = {
       name: "Health",
       id: "health",
       title: "Tips for Nutrition, Fitness, and Well-being",
-      image: "/images/categories/health.jpg",
+      image: "/image/category/health.jpg",
       description:
         "Prioritize your well-being with health tips and practices. Nourish your mind and body for a healthier and more fulfilling life.",
     },
@@ -68,7 +68,7 @@ export const baseConfig: BaseConfig = {
       name: "Science",
       id: "science",
       title: "Discoveries, Explorations, and Mysteries of the Universe",
-      image: "/images/categories/science.jpg",
+      image: "/image/category/science.jpg",
       description:
         "Unravel the mysteries of the universe through scientific discoveries and explorations. Dive into the wonders of the cosmos and beyond.",
     },
@@ -91,6 +91,11 @@ export const baseConfig: BaseConfig = {
         { label: "Careers", url: "/careers" },
       ],
     },
+  ],
+  legalLinks: [
+    { label: "Privacy Policy", url: "/privacy" },
+    { label: "Terms of Service", url: "/terms" },
+    { label: "Cookie Policy", url: "/cookiepolicy" },
   ],
 };
 

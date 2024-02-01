@@ -11,6 +11,9 @@ interface Props {
   params: {
     slug: string;
   };
+  searchParams?: {
+    [key: string]: string | string[] | undefined;
+  };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -26,10 +29,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function CategoryPostsPage({ params }: Props) {
+export default function CategoryPostsPage({ params, searchParams }: Props) {
   const category = getCategory(params.slug);
 
-  if (!category) return notFound;
+  if (!category) notFound();
 
   return (
     <div className="grid gap-8">
@@ -48,7 +51,11 @@ export default function CategoryPostsPage({ params }: Props) {
           placeholder={`Search posts in ${category.id}`}
         />
       </div>
-      <PostList fixedCategory={category.id} className="container" />
+      <PostList
+        fixedCategory={category.id}
+        searchParams={searchParams}
+        className="container"
+      />
     </div>
   );
 }

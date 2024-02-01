@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { getPosts } from "@/dev/posts";
 
 import { baseConfig } from "@/config/base";
 import { siteConfig } from "@/config/site";
@@ -8,16 +7,21 @@ import { buttonVariants } from "@/components/ui/button";
 import { CategoryBox } from "@/components/category-box";
 import { EmailSubscribeForm } from "@/components/form/email-subscribe-form";
 import { PostCategoryFilter } from "@/components/post-category-filter";
-import { PostItem } from "@/components/post-item";
 import { PostList } from "@/components/post-list";
 
-export default function Home() {
+interface Props {
+  searchParams?: {
+    [key: string]: string | string[] | undefined;
+  };
+}
+
+export default function Home({ searchParams }: Props) {
   return (
     <div className="flex flex-col gap-24">
       <HeroSection />
       <CategoriesSection />
       <FeaturedPostsSection />
-      <LatestPosts />
+      <LatestPosts searchParams={searchParams} />
     </div>
   );
 }
@@ -63,16 +67,12 @@ function FeaturedPostsSection() {
           View all
         </Link>
       </div>
-      <div className="xs:grid-cols-2 grid grid-cols-1 gap-8 md:grid-cols-3">
-        {getPosts({ amount: 6, tag: "featured" }).map((post, index) => (
-          <PostItem key={index} post={post} />
-        ))}
-      </div>
+      <PostList fixedTag="featured" />
     </section>
   );
 }
 
-function LatestPosts() {
+function LatestPosts({ searchParams }: Props) {
   return (
     <section className="grid gap-8">
       <h2 className="font-heading text-center text-3xl font-bold">
@@ -83,7 +83,7 @@ function LatestPosts() {
           <PostCategoryFilter categories={baseConfig.categories} />
         </div>
       </div>
-      <PostList className="container" />
+      <PostList searchParams={searchParams} className="container" />
     </section>
   );
 }

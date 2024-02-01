@@ -3,12 +3,12 @@
 import { HTMLAttributes, Suspense, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCreateQueryString } from "@/hooks/create-query-string";
-import { SelectOption } from "@/types";
+import { PostTag } from "@/types";
 
 import { cn } from "@/lib/utils";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  tags: SelectOption[];
+  tags: PostTag[];
 }
 function Filter({ tags, className, ...props }: Props) {
   const searchParams = useSearchParams();
@@ -31,25 +31,27 @@ function Filter({ tags, className, ...props }: Props) {
 
   return (
     <div className={cn("flex w-max rounded-full border", className)} {...props}>
-      {tags.map(({ label, value }) => (
-        <button
-          key={value}
-          className={cn(
-            "text-muted-foreground rounded-full px-4 py-1 text-sm",
-            {
-              "bg-secondary text-secondary-foreground":
-                value === tag || (!tag && value === "latest"),
+      {tags.map(({ label, value }) => {
+        const isActive = value === tag || (!tag && value === "latest");
+        return (
+          <button
+            key={value}
+            className={cn(
+              "text-muted-foreground rounded-full px-4 py-1 text-sm",
+              {
+                "bg-primary text-primary-foreground": isActive,
+              }
+            )}
+            onClick={() =>
+              router.push(`${pathname}?${createQueryString({ tag: value })}`, {
+                scroll: false,
+              })
             }
-          )}
-          onClick={() =>
-            router.push(`${pathname}?${createQueryString({ tag: value })}`, {
-              scroll: false,
-            })
-          }
-        >
-          {label}
-        </button>
-      ))}
+          >
+            {label}
+          </button>
+        );
+      })}
     </div>
   );
 }

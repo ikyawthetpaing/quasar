@@ -7,13 +7,19 @@ import { PostCategoryFilter } from "@/components/post-category-filter";
 import { PostList } from "@/components/post-list";
 import { PostTagsFilter } from "@/components/post-tags-filter";
 
+interface Props {
+  searchParams?: {
+    [key: string]: string | string[] | undefined;
+  };
+}
+
 export const metadata: Metadata = {
   title: "Explore Stories and Ideas on Our Blog",
   description:
     "Discover a variety of stories and ideas on our blog, including travel, art, fashion and more.",
 };
 
-export default function BlogPage() {
+export default function BlogPage({ searchParams }: Props) {
   return (
     <div>
       <section className="grid gap-8">
@@ -35,7 +41,7 @@ export default function BlogPage() {
             <SearchPostForm className="max-w-96" />
           </div>
         </div>
-        <PostList className="container" />
+        <PostList searchParams={searchParams} className="container" />
       </section>
     </div>
   );

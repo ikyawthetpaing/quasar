@@ -1,3 +1,5 @@
+import { Author as MetadataAuthor } from "next/dist/lib/metadata/types/metadata-types";
+
 export type NavLink = {
   label: string;
   url: string;
@@ -22,8 +24,46 @@ export type BaseConfig = {
   navItems: NavItem[];
   categories: Category[];
   footerLinkGroups: { title: string; links: NavLink[] }[];
+  legalLinks: NavLink[];
+};
+
+export type SiteConfig = {
+  name: string;
+  title: string;
+  description: string;
+  url: string;
+  creator: string;
+  ogImage: string;
+  authors: MetadataAuthor[];
+  keywords: string[];
+};
+
+export type Post = {
+  title: string;
+  description: string;
+  thumbnail: string;
+  category: string;
+  date: string;
+  featured: boolean;
+  author: string;
+};
+
+export type PostTag = {
+  label: string;
+  value: "latest" | "popular" | "featured";
 };
 
 export type PostConfig = {
-  tags: SelectOption[];
+  tags: PostTag[];
+};
+
+export type Page = {
+  title: string;
+  description: string;
+};
+
+export type Author = {
+  name: string;
+  avatar: string;
+  role: string;
 };

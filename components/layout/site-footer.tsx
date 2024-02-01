@@ -55,11 +55,7 @@ export function SiteFooter() {
             rights reserved.
           </div>
           <div className="flex flex-col gap-6 md:flex-row">
-            {[
-              { label: "Privacy Policy", url: "/privacy" },
-              { label: "Terms of Service", url: "/terms" },
-              { label: "Cookie Policy", url: "/cookiepolicy" },
-            ].map(({ label, url }, index) => (
+            {baseConfig.legalLinks.map(({ label, url }, index) => (
               <Link
                 key={index}
                 href={url}

@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { authors } from "@/dev/authors";
 
 import { siteConfig } from "@/config/site";
+import { getAuthors } from "@/lib/content/author";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -41,11 +41,11 @@ export default function AboutPage() {
             {siteConfig.name} Community
           </h2>
           <ul className="pl-8">
-            {authors.map(({ name, role, username }, index) => (
+            {getAuthors().map(({ metadata: { role, name }, slug }, index) => (
               <li key={index} className="list-disc">
                 {role}:{" "}
                 <Link
-                  href={`https://twitter.com/${username}`}
+                  href={`/author/${slug}`}
                   className="underline underline-offset-4"
                   target="_blank"
                 >

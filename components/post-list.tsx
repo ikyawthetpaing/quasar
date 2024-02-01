@@ -1,25 +1,40 @@
-"use client";
+import { HTMLAttributes } from "react";
+import { PostTag } from "@/types";
 
-import { HTMLAttributes, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
-import { getPosts } from "@/dev/posts";
-
-import { cn } from "@/lib/utils";
-
-import { PostItem } from "./post-item";
+import { getPostsMetadata } from "@/lib/content/post";
+import { cn, isString } from "@/lib/utils";
+import { PostItem } from "@/components/post-item";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
+  amount?: number;
   fixedCategory?: string;
+  fixedTag?: PostTag["value"];
+  searchParams?: {
+    [key: string]: string | string[] | undefined;
+  };
 }
 
-function List({ fixedCategory, className, ...props }: Props) {
-  const searchParams = useSearchParams();
-
-  const query = searchParams.get("query");
-  const tag = searchParams.get("tag");
-  const category = fixedCategory ? fixedCategory : searchParams.get("category");
-  const posts = getPosts({
-    amount: 6,
+export function PostList({
+  amount = 6,
+  fixedCategory,
+  fixedTag,
+  searchParams,
+  className,
+  ...props
+}: Props) {
+  const query = isString(searchParams?.query) ? searchParams.query : null;
+  const tag = fixedTag
+    ? fixedTag
+    : isString(searchParams?.tag)
+      ? (searchParams.tag as PostTag["value"])
+      : null;
+  const category = fixedCategory
+    ? fixedCategory
+    : isString(searchParams?.category)
+      ? searchParams.category
+      : null;
+  const posts = getPostsMetadata({
+    amount,
     category,
     tag,
     query,
@@ -37,13 +52,5 @@ function List({ fixedCategory, className, ...props }: Props) {
         <PostItem key={index} post={post} />
       ))}
     </div>
-  );
-}
-
-export function PostList({ ...props }: Props) {
-  return (
-    <Suspense>
-      <List {...props} />
-    </Suspense>
   );
 }

@@ -13,7 +13,7 @@ export function CategoryBox({ category, className, ...props }: Props) {
   return (
     <div
       className={cn(
-        "bg-muted relative flex aspect-square overflow-hidden rounded-2xl border",
+        "bg-muted relative aspect-square overflow-hidden rounded-2xl border",
         className
       )}
       {...props}
