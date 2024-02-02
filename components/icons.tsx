@@ -1,6 +1,10 @@
 import { SVGProps } from "react";
 import {
   ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
   Facebook,
   Instagram,
   LucideProps,
@@ -18,6 +22,10 @@ export const Icons = {
   search: Search,
   menu: Menu,
   arrowLeft: ArrowLeft,
+  chevronsLeft: ChevronsLeft,
+  chevronLeft: ChevronLeft,
+  chevronsRight: ChevronsRight,
+  chevronRight: ChevronRight,
   check: ({ ...props }: LucideProps) => (
     <svg
       viewBox="0 0 24 24"

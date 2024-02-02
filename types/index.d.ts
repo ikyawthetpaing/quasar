@@ -48,6 +48,11 @@ export type Post = {
   author: string;
 };
 
+export type PostMetadata = Post & {
+  slug: string;
+  views: number;
+};
+
 export type PostTag = {
   label: string;
   value: "latest" | "popular" | "featured";

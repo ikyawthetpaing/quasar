@@ -25,7 +25,7 @@ export function CategoryBox({ category, className, ...props }: Props) {
         className="object-cover"
         sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
       />
-      <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl border bg-[rgba(0,0,0,0.25)] px-6 py-3 text-white backdrop-blur-sm dark:bg-[rgba(255,255,255,0.25)] dark:text-black">
+      <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-[rgba(255,255,255,0.45)] px-6 py-3 backdrop-blur-sm dark:bg-[rgba(0,0,0,0.45)]">
         {name}
       </p>
     </div>

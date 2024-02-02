@@ -1,26 +1,31 @@
 import path from "path";
-import { Post, PostTag } from "@/types";
+import { Post, PostMetadata, PostTag } from "@/types";
 
 import { getMDXData } from "./utils";
 
 const posts = getMDXData<Post>(path.join(process.cwd(), "content", "post"));
 
 export function getPostsMetadata({
-  amount = 6,
+  pageIndex = 0,
+  perPage = 6,
   tag = "latest",
   category,
   query,
 }: {
-  amount?: number;
+  pageIndex?: number;
+  perPage?: number;
   tag?: PostTag["value"] | null;
   category?: string | null;
   query?: string | null;
 }) {
-  let postsMetadata = posts.map(({ metadata, slug }) => ({
-    slug,
-    views: 0,
-    ...metadata,
-  }));
+  let postsMetadata = posts.map(
+    ({ metadata, slug }) =>
+      ({
+        slug,
+        views: 0,
+        ...metadata,
+      }) as PostMetadata
+  );
 
   if (category) {
     postsMetadata = postsMetadata.filter(
@@ -49,7 +54,21 @@ export function getPostsMetadata({
       break;
   }
 
-  return postsMetadata.slice(0, amount);
+  return {
+    postsMetadata: getPageItems(postsMetadata, pageIndex, perPage),
+    pageCount: Math.ceil(postsMetadata.length / perPage),
+  };
+}
+
+function getPageItems<T>(
+  inputArray: T[],
+  pageIndex: number,
+  pageSize: number
+): T[] {
+  const startIndex = pageIndex * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  return inputArray.slice(startIndex, endIndex);
 }
 
 export function getPost(_slug: string) {

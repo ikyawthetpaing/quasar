@@ -67,7 +67,7 @@ function FeaturedPostsSection() {
           View all
         </Link>
       </div>
-      <PostList fixedTag="featured" />
+      <PostList fixedTag="featured" showPagination={false} />
     </section>
   );
 }

@@ -39,9 +39,12 @@ export function Filter({ categories, className, ...props }: Props) {
             { "text-foreground underline": id === category }
           )}
           onClick={() =>
-            router.push(`${pathname}?${createQueryString({ category: id })}`, {
-              scroll: false,
-            })
+            router.push(
+              `${pathname}?${createQueryString({ category: id, page_index: 0 })}`,
+              {
+                scroll: false,
+              }
+            )
           }
         >
           {name}

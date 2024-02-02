@@ -42,9 +42,12 @@ function Form({
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push(`${actionUrl || pathname}?${createQueryString({ query })}`, {
-      scroll: false,
-    });
+    router.push(
+      `${actionUrl || pathname}?${createQueryString({ query: query || null, page_index: 0 })}`,
+      {
+        scroll: false,
+      }
+    );
     if (onSubmitProp) onSubmitProp();
   };
 

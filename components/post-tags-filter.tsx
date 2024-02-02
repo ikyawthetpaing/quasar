@@ -43,9 +43,12 @@ function Filter({ tags, className, ...props }: Props) {
               }
             )}
             onClick={() =>
-              router.push(`${pathname}?${createQueryString({ tag: value })}`, {
-                scroll: false,
-              })
+              router.push(
+                `${pathname}?${createQueryString({ tag: value, page_index: 0 })}`,
+                {
+                  scroll: false,
+                }
+              )
             }
           >
             {label}
