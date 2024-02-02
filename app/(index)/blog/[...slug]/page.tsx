@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { getAuthor } from "@/lib/content/author";
-import { getPosts } from "@/lib/content/post";
+import { getPost } from "@/lib/content/post";
 import { absoluteUrl, formatDate, timeAgo } from "@/lib/utils";
 import { Article } from "@/components/acticle";
 import { Icons } from "@/components/icons";
@@ -20,7 +20,7 @@ interface PostProps {
 
 function getPostFromParams(params: PostProps["params"]) {
   const slug = params.slug.join("/");
-  const post = getPosts().find((post) => post.slug === slug);
+  const post = getPost(slug);
 
   if (!post) {
     null;

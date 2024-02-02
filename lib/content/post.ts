@@ -5,10 +5,6 @@ import { getMDXData } from "./utils";
 
 const posts = getMDXData<Post>(path.join(process.cwd(), "content", "post"));
 
-export function getPosts() {
-  return posts;
-}
-
 export function getPostsMetadata({
   amount = 6,
   tag = "latest",
@@ -54,4 +50,8 @@ export function getPostsMetadata({
   }
 
   return postsMetadata.slice(0, amount);
+}
+
+export function getPost(_slug: string) {
+  return posts.find(({ slug }) => slug === _slug);
 }
