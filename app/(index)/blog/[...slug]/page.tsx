@@ -8,6 +8,7 @@ import { getPost } from "@/lib/content/post";
 import { absoluteUrl, formatDate, timeAgo } from "@/lib/utils";
 import { Article } from "@/components/acticle";
 import { Icons } from "@/components/icons";
+import { PostList } from "@/components/post-list";
 
 interface PostProps {
   params: {
@@ -88,7 +89,7 @@ export default function Post({ params, searchParams }: PostProps) {
   const author = getAuthor(authorSlug);
 
   return (
-    <div className="container">
+    <div className="container flex flex-col gap-12">
       <div className="flex flex-col gap-8">
         <div>
           <Link
@@ -101,9 +102,12 @@ export default function Post({ params, searchParams }: PostProps) {
           </Link>
         </div>
         <div className="flex flex-col items-center gap-4">
-          <div className="rounded-lg border px-3 py-1 text-sm capitalize">
+          <Link
+            href={`/category/${category}`}
+            className="rounded-lg border px-3 py-1 text-sm capitalize"
+          >
             {category}
-          </div>
+          </Link>
           <h1 className="font-heading text-center text-4xl font-bold">
             {title}
           </h1>
@@ -146,6 +150,10 @@ export default function Post({ params, searchParams }: PostProps) {
           </div>
           <Article content={post.content} className="min-w-0 max-w-4xl" />
         </div>
+      </div>
+      <div className="flex flex-col gap-8">
+        <h2 className="font-heading text-3xl font-bold">Related Posts</h2>
+        <PostList fixedCategory={category} showPagination={false} />
       </div>
     </div>
   );

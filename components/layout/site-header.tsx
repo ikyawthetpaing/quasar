@@ -21,7 +21,7 @@ export function SiteHeader({ navItems }: Props) {
         </div>
       </div>
       <div className="flex justify-center">
-        <Link href="/" className="font-heading text-xl font-bold">
+        <Link href="/" className="font-heading text-2xl font-bold">
           {siteConfig.name}
         </Link>
       </div>
