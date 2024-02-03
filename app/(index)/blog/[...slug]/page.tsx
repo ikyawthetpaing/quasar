@@ -5,7 +5,8 @@ import { notFound } from "next/navigation";
 
 import { getAuthor } from "@/lib/content/author";
 import { getPost } from "@/lib/content/post";
-import { absoluteUrl, formatDate, timeAgo } from "@/lib/utils";
+import { updateAndGetPostViewsCount } from "@/lib/db/action/post-views";
+import { absoluteUrl, formatDate } from "@/lib/utils";
 import { Article } from "@/components/acticle";
 import { Icons } from "@/components/icons";
 import { PostList } from "@/components/post-list";
@@ -70,23 +71,20 @@ export function generateMetadata({ params }: PostProps): Metadata {
   };
 }
 
-export default function Post({ params, searchParams }: PostProps) {
+export default async function Post({ params, searchParams }: PostProps) {
   const post = getPostFromParams(params);
 
   if (!post) {
     notFound();
   }
 
+  const { slug, metadata } = post;
+  const { title, date, thumbnail, category, author: authorSlug } = metadata;
+  const author = getAuthor(authorSlug);
+
   const { back } = searchParams;
   const backUrl = typeof back === "string" ? back : "/blog";
-  const {
-    title,
-    date,
-    thumbnail,
-    category,
-    author: authorSlug,
-  } = post.metadata;
-  const author = getAuthor(authorSlug);
+  const viewsCount = await updateAndGetPostViewsCount(slug);
 
   return (
     <div className="container flex flex-col gap-12">
@@ -112,7 +110,8 @@ export default function Post({ params, searchParams }: PostProps) {
             {title}
           </h1>
           <p className="text-muted-foreground text-center">
-            {formatDate(date)} &#8226; {timeAgo(date)}
+            {formatDate(date)} &#8226;{" "}
+            {`${viewsCount} ${viewsCount > 1 ? "views" : "view"}`}
           </p>
           <div className="grid aspect-video overflow-hidden rounded-xl">
             <Image

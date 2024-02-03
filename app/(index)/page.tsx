@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { baseConfig } from "@/config/base";
 import { siteConfig } from "@/config/site";
+import { updateAndGetPostViewsCount } from "@/lib/db/action/post-views";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { CategoryBox } from "@/components/category-box";
