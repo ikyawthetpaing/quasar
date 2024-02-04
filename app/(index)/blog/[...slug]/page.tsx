@@ -10,6 +10,7 @@ import { absoluteUrl, formatDate } from "@/lib/utils";
 import { Article } from "@/components/acticle";
 import { Icons } from "@/components/icons";
 import { PostList } from "@/components/post-list";
+import { PostViewsCounter } from "@/components/post-views-counter";
 
 interface PostProps {
   params: {
@@ -110,8 +111,7 @@ export default async function Post({ params, searchParams }: PostProps) {
             {title}
           </h1>
           <p className="text-muted-foreground text-center">
-            {formatDate(date)} &#8226;{" "}
-            {`${viewsCount} ${viewsCount > 1 ? "views" : "view"}`}
+            {formatDate(date)} &#8226; <PostViewsCounter slug={slug} />
           </p>
           <div className="grid aspect-video overflow-hidden rounded-xl">
             <Image
@@ -152,7 +152,11 @@ export default async function Post({ params, searchParams }: PostProps) {
       </div>
       <div className="flex flex-col gap-8">
         <h2 className="font-heading text-3xl font-bold">Related Posts</h2>
-        <PostList fixedCategory={category} showPagination={false} />
+        <PostList
+          fixedCategory={category}
+          showPagination={false}
+          excludes={[slug]}
+        />
       </div>
     </div>
   );

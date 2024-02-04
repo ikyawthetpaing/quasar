@@ -1,4 +1,4 @@
-import { SVGProps } from "react";
+import { IconName } from "@/types";
 import {
   ArrowLeft,
   ChevronLeft,
@@ -7,12 +7,23 @@ import {
   ChevronsRight,
   Facebook,
   Instagram,
+  Loader2,
   LucideProps,
   Menu,
+  Newspaper,
   Search,
   Twitter,
   Youtube,
 } from "lucide-react";
+
+interface IconProps extends LucideProps {
+  name: IconName;
+}
+
+export function Icon({ name, ...props }: IconProps) {
+  const IconComponent = Icons[name];
+  return <IconComponent {...props} />;
+}
 
 export const Icons = {
   facebook: Facebook,
@@ -26,6 +37,8 @@ export const Icons = {
   chevronLeft: ChevronLeft,
   chevronsRight: ChevronsRight,
   chevronRight: ChevronRight,
+  spinner: Loader2,
+  newspaper: Newspaper,
   check: ({ ...props }: LucideProps) => (
     <svg
       viewBox="0 0 24 24"

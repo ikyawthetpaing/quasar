@@ -1,5 +1,9 @@
 import { Author as MetadataAuthor } from "next/dist/lib/metadata/types/metadata-types";
 
+import { Icons } from "@/components/icons";
+
+export type IconName = keyof typeof Icons;
+
 export type NavLink = {
   label: string;
   url: string;

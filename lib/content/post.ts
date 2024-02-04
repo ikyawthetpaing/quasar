@@ -6,12 +6,14 @@ import { getMDXData } from "./utils";
 const posts = getMDXData<Post>(path.join(process.cwd(), "content", "post"));
 
 export function getPostsMetadata({
+  excludes,
   pageIndex = 0,
   perPage = 6,
   tag = "latest",
   category,
   query,
 }: {
+  excludes?: string[];
   pageIndex?: number;
   perPage?: number;
   tag?: PostTag["value"] | null;
@@ -26,6 +28,12 @@ export function getPostsMetadata({
         ...metadata,
       }) as PostMetadata
   );
+
+  if (excludes) {
+    postsMetadata = postsMetadata.filter(
+      ({ slug }) => !excludes.includes(slug)
+    );
+  }
 
   if (category) {
     postsMetadata = postsMetadata.filter(

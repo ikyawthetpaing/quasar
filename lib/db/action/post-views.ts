@@ -1,4 +1,6 @@
-import PostViews from "../model/post-views";
+"use server";
+
+import PostViews from "@/lib/db/model/post-views";
 
 export async function updateAndGetPostViewsCount(slug: string) {
   const postViews = await PostViews.findOneAndUpdate(

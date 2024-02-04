@@ -5,6 +5,7 @@ import { Inter as FontSans } from "next/font/google";
 
 import { siteConfig } from "@/config/site";
 import { absoluteUrl, cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@/components/analytics";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -86,6 +87,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
           <Analytics />
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

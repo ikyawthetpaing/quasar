@@ -5,9 +5,11 @@ import { getPostsMetadata } from "@/lib/content/post";
 import { cn, isString } from "@/lib/utils";
 import { PostItem } from "@/components/post-item";
 
+import { Empty } from "./empty";
 import { PaginationButton } from "./pagination-button";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
+  excludes?: string[];
   showPagination?: boolean;
   amount?: number;
   fixedCategory?: string;
@@ -18,6 +20,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 export function PostList({
+  excludes,
   showPagination = true,
   amount,
   fixedCategory,
@@ -41,6 +44,7 @@ export function PostList({
       ? searchParams.category
       : null;
   const { postsMetadata, pageCount } = getPostsMetadata({
+    excludes,
     pageIndex: page_index,
     perPage: amount,
     category,
@@ -49,21 +53,27 @@ export function PostList({
   });
 
   return (
-    <div className="grid gap-8">
-      <div
-        className={cn(
-          "xs:grid-cols-2 grid grid-cols-1 gap-8 md:grid-cols-3",
-          className
-        )}
-        {...props}
-      >
-        {postsMetadata.map((post, index) => (
-          <PostItem key={index} post={post} />
-        ))}
-      </div>
-      {showPagination && pageCount ? (
-        <PaginationButton page_index={page_index} pageCount={pageCount} />
-      ) : null}
-    </div>
+    <>
+      {pageCount > 0 ? (
+        <div className="grid gap-8">
+          <div
+            className={cn(
+              "xs:grid-cols-2 grid grid-cols-1 gap-8 md:grid-cols-3",
+              className
+            )}
+            {...props}
+          >
+            {postsMetadata.map((post, index) => (
+              <PostItem key={index} post={post} />
+            ))}
+          </div>
+          {showPagination && pageCount ? (
+            <PaginationButton page_index={page_index} pageCount={pageCount} />
+          ) : null}
+        </div>
+      ) : (
+        <Empty iconName="newspaper" message="No posts found" />
+      )}
+    </>
   );
 }
