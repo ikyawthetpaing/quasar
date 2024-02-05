@@ -6,14 +6,13 @@ import { toast } from "sonner";
 import { subscribeNewsletters } from "@/lib/db/action/email-subscribers";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-import { Icons } from "../icons";
+import { Icons } from "@/components/icons";
 
 export function EmailSubscribeForm() {
   const [email, setEmail] = useState("");
   const [isPending, startTransition] = useTransition();
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     startTransition(async () => {
       try {
@@ -28,6 +27,8 @@ export function EmailSubscribeForm() {
         if (error instanceof Error) {
           toast.error(error.message);
         }
+      } finally {
+        setEmail("");
       }
     });
   };
@@ -35,9 +36,15 @@ export function EmailSubscribeForm() {
   return (
     <form onSubmit={onSubmit} className="flex rounded-xl border p-1">
       <Input
+        type="email"
+        autoCapitalize="none"
+        autoComplete="email"
+        autoCorrect="off"
         placeholder="Email Address"
         className="border-none bg-transparent outline-none"
+        value={email}
         onChange={(e) => setEmail(e.target.value)}
+        disabled={isPending}
       />
       <Button
         type="submit"

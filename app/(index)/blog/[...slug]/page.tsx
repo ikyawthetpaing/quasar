@@ -9,8 +9,8 @@ import { updateAndGetPostViewsCount } from "@/lib/db/action/post-views";
 import { absoluteUrl, formatDate } from "@/lib/utils";
 import { Article } from "@/components/acticle";
 import { Icons } from "@/components/icons";
+import { NavigateBackButton } from "@/components/navigate-back-button";
 import { PostList } from "@/components/post-list";
-import { PostViewsCounter } from "@/components/post-views-counter";
 
 interface PostProps {
   params: {
@@ -91,14 +91,7 @@ export default async function Post({ params, searchParams }: PostProps) {
     <div className="container flex flex-col gap-12">
       <div className="flex flex-col gap-8">
         <div>
-          <Link
-            href={backUrl}
-            scroll={false}
-            className="flex items-center gap-2"
-          >
-            <Icons.arrowLeft className="size-4" />
-            Back
-          </Link>
+          <NavigateBackButton />
         </div>
         <div className="flex flex-col items-center gap-4">
           <Link
@@ -111,7 +104,8 @@ export default async function Post({ params, searchParams }: PostProps) {
             {title}
           </h1>
           <p className="text-muted-foreground text-center">
-            {formatDate(date)} &#8226; <PostViewsCounter slug={slug} />
+            {formatDate(date)} &#8226; {viewsCount}{" "}
+            {viewsCount > 1 ? "views" : "view"}
           </p>
           <div className="grid aspect-video overflow-hidden rounded-xl">
             <Image

@@ -48,7 +48,7 @@ export type Post = {
   thumbnail: string;
   category: string;
   date: string;
-  featured: boolean;
+  featured: "true" | "false";
   author: string;
 };
 

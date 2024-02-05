@@ -19,7 +19,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   };
 }
 
-export function PostList({
+export async function PostList({
   excludes,
   showPagination = true,
   amount,
@@ -43,7 +43,7 @@ export function PostList({
     : isString(searchParams?.category)
       ? searchParams.category
       : null;
-  const { postsMetadata, pageCount } = getPostsMetadata({
+  const { postsMetadata, pageCount } = await getPostsMetadata({
     excludes,
     pageIndex: page_index,
     perPage: amount,

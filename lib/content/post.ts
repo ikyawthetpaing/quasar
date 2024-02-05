@@ -1,11 +1,16 @@
 import path from "path";
 import { Post, PostMetadata, PostTag } from "@/types";
 
-import { getMDXData } from "./utils";
+import { getMDXData } from "@/lib/content/utils";
+import { getPostViewsCount } from "@/lib/db/action/post-views";
 
-const posts = getMDXData<Post>(path.join(process.cwd(), "content", "post"));
+const posts = getPosts();
 
-export function getPostsMetadata({
+function getPosts() {
+  return getMDXData<Post>(path.join(process.cwd(), "content", "post"));
+}
+
+export async function getPostsMetadata({
   excludes,
   pageIndex = 0,
   perPage = 6,
@@ -20,7 +25,8 @@ export function getPostsMetadata({
   category?: string | null;
   query?: string | null;
 }) {
-  let postsMetadata = posts.map(
+  const _posts = process.env.NODE_ENV === "production" ? posts : getPosts();
+  let postsMetadata = _posts.map(
     ({ metadata, slug }) =>
       ({
         slug,
@@ -49,11 +55,19 @@ export function getPostsMetadata({
 
   switch (tag) {
     case "featured":
-      postsMetadata = postsMetadata.filter(({ featured }) => featured);
+      postsMetadata = postsMetadata.filter(
+        ({ featured }) => featured === "true"
+      );
       break;
     case "popular":
-    // postsMetadata.sort((a, b) => (b.views || 0) - (a.views || 0));
-    // break;
+      postsMetadata = await Promise.all(
+        postsMetadata.map(async (metadata) => {
+          const views = await getPostViewsCount(metadata.slug);
+          return { ...metadata, views };
+        })
+      );
+      postsMetadata.sort((a, b) => (b.views || 0) - (a.views || 0));
+      break;
     case "latest":
     default:
       postsMetadata.sort(
@@ -80,5 +94,6 @@ function getPageItems<T>(
 }
 
 export function getPost(_slug: string) {
-  return posts.find(({ slug }) => slug === _slug);
+  const _posts = process.env.NODE_ENV === "production" ? posts : getPosts();
+  return _posts.find(({ slug }) => slug === _slug);
 }

@@ -26,7 +26,7 @@ function CustomLink(props: any) {
 }
 
 function RoundedImage({ alt, ...props }: ImageProps) {
-  return <Image alt={alt} className="rounded-xl" {...props} />;
+  return <Image alt={alt} className="bg-muted rounded-xl" {...props} />;
 }
 
 function Callout({
