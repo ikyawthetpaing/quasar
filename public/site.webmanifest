@@ -1,7 +1,7 @@
 {
-  "name": "Quasar: Explore Our Thoughts, Stories and Ideas",
+  "name": "Quasar: Guiding Your Journey to Success in the Web Development",
   "short_name": "Quasar",
-  "description": "A community-driven platform sharing captivating stories that impact on our lives, careers, and the world.",
+  "description": "Quasar is your go-to destination for comprehensive free courses and articles, empowering you to master the art of web development and stay ahead in this dynamic niche.",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -25,13 +25,13 @@
   "form_factor": "wide",
   "related_applications": [],
   "categories": [
-    "Travel",
-    "Art",
-    "Fashion",
-    "Lifestyle",
-    "Food",
-    "Tech",
-    "Health",
-    "Science"
+    "Tutorials & How-To Guides",
+    "Design Inspiration & Trends",
+    "Tools & Resources",
+    "Case Studies & Portfolio Reviews",
+    "Coding Tips & Tricks",
+    "Industry News & Updates",
+    "UX/UI Design",
+    "Freelancing & Career Development"
   ]
 }

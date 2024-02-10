@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PostMetadata } from "@/types";
 
-import { formatDate } from "@/lib/utils";
+import { formatDate, slugify } from "@/lib/utils";
 
 interface Props {
   post: PostMetadata;
@@ -25,7 +25,7 @@ export function PostItem({ post }: Props) {
           />
         </Link>
         <Link
-          href={`/category/${category}`}
+          href={`/category/${slugify(category)}`}
           className="absolute right-4 top-4 rounded-lg bg-[rgba(255,255,255,0.45)] px-3 py-1 text-sm capitalize backdrop-blur-sm dark:bg-[rgba(0,0,0,0.45)]"
         >
           {category}

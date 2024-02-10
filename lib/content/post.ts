@@ -3,6 +3,7 @@ import { Post, PostMetadata, PostTag } from "@/types";
 
 import { getMDXData } from "@/lib/content/utils";
 import { getPostViewsCount } from "@/lib/db/action/post-views";
+import { slugify } from "@/lib/utils";
 
 const posts = getPosts();
 
@@ -25,7 +26,8 @@ export async function getPostsMetadata({
   category?: string | null;
   query?: string | null;
 }) {
-  const _posts = process.env.NODE_ENV === "production" ? posts : getPosts();
+  const _posts =
+    process.env.NODE_ENV === "production" ? [...posts] : getPosts();
   let postsMetadata = _posts.map(
     ({ metadata, slug }) =>
       ({
@@ -43,7 +45,7 @@ export async function getPostsMetadata({
 
   if (category) {
     postsMetadata = postsMetadata.filter(
-      ({ category: _category }) => _category === category
+      ({ category: _category }) => slugify(_category) === category
     );
   }
 
@@ -94,6 +96,22 @@ function getPageItems<T>(
 }
 
 export function getPost(_slug: string) {
-  const _posts = process.env.NODE_ENV === "production" ? posts : getPosts();
+  const _posts =
+    process.env.NODE_ENV === "production" ? [...posts] : getPosts();
   return _posts.find(({ slug }) => slug === _slug);
+}
+
+let blogCategories: string[] = [];
+
+export function getPostCategories() {
+  if (!(blogCategories.length > 0)) {
+    const _posts =
+      process.env.NODE_ENV === "production" ? [...posts] : getPosts();
+    _posts.forEach(({ metadata: { category } }) => {
+      if (!blogCategories.includes(category)) {
+        blogCategories.push(category);
+      }
+    });
+  }
+  return blogCategories;
 }

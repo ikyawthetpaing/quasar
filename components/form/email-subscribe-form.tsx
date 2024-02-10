@@ -46,12 +46,7 @@ export function EmailSubscribeForm() {
         onChange={(e) => setEmail(e.target.value)}
         disabled={isPending}
       />
-      <Button
-        type="submit"
-        variant="secondary"
-        className="rounded-[8px]"
-        disabled={isPending}
-      >
+      <Button type="submit" className="rounded-[8px]" disabled={isPending}>
         {isPending ? (
           <>
             <Icons.spinner className="mr-2 size-4 animate-spin" /> Subscribing

@@ -16,17 +16,8 @@ export type SelectOption = {
 
 export type NavItem = NavLink;
 
-export type Category = {
-  id: string;
-  name: string;
-  title: string;
-  description: string;
-  image: string;
-};
-
 export type BaseConfig = {
   navItems: NavItem[];
-  categories: Category[];
   footerLinkGroups: { title: string; links: NavLink[] }[];
   legalLinks: NavLink[];
 };

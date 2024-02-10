@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 
 import { Metadata, Viewport } from "next";
 import { Inter as FontSans } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { siteConfig } from "@/config/site";
 import { absoluteUrl, cn } from "@/lib/utils";
@@ -87,6 +88,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
           <Analytics />
+          <SpeedInsights />
           <Toaster />
         </ThemeProvider>
       </body>

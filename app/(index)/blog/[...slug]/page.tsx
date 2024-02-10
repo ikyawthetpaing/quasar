@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { getAuthor } from "@/lib/content/author";
 import { getPost } from "@/lib/content/post";
 import { updateAndGetPostViewsCount } from "@/lib/db/action/post-views";
-import { absoluteUrl, formatDate } from "@/lib/utils";
+import { absoluteUrl, formatDate, slugify } from "@/lib/utils";
 import { Article } from "@/components/acticle";
 import { Icons } from "@/components/icons";
 import { NavigateBackButton } from "@/components/navigate-back-button";
@@ -15,9 +15,6 @@ import { PostList } from "@/components/post-list";
 interface PostProps {
   params: {
     slug: string[];
-  };
-  searchParams: {
-    [key: string]: string | string[] | undefined;
   };
 }
 
@@ -72,7 +69,7 @@ export function generateMetadata({ params }: PostProps): Metadata {
   };
 }
 
-export default async function Post({ params, searchParams }: PostProps) {
+export default async function Post({ params }: PostProps) {
   const post = getPostFromParams(params);
 
   if (!post) {
@@ -83,8 +80,6 @@ export default async function Post({ params, searchParams }: PostProps) {
   const { title, date, thumbnail, category, author: authorSlug } = metadata;
   const author = getAuthor(authorSlug);
 
-  const { back } = searchParams;
-  const backUrl = typeof back === "string" ? back : "/blog";
   const viewsCount = await updateAndGetPostViewsCount(slug);
 
   return (
@@ -95,7 +90,7 @@ export default async function Post({ params, searchParams }: PostProps) {
         </div>
         <div className="flex flex-col items-center gap-4">
           <Link
-            href={`/category/${category}`}
+            href={`/category/${slugify(category)}`}
             className="rounded-lg border px-3 py-1 text-sm capitalize"
           >
             {category}

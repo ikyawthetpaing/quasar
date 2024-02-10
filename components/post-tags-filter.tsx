@@ -1,6 +1,7 @@
 "use client";
 
 import { HTMLAttributes, Suspense, useEffect, useState } from "react";
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCreateQueryString } from "@/hooks/create-query-string";
 import { PostTag } from "@/types";
@@ -34,25 +35,19 @@ function Filter({ tags, className, ...props }: Props) {
       {tags.map(({ label, value }) => {
         const isActive = value === tag || (!tag && value === "latest");
         return (
-          <button
+          <Link
             key={value}
+            href={`${pathname}?${createQueryString({ tag: value, page_index: 0 })}`}
             className={cn(
               "text-muted-foreground rounded-full px-4 py-1 text-sm",
               {
                 "bg-primary text-primary-foreground": isActive,
               }
             )}
-            onClick={() =>
-              router.push(
-                `${pathname}?${createQueryString({ tag: value, page_index: 0 })}`,
-                {
-                  scroll: false,
-                }
-              )
-            }
+            scroll={false}
           >
             {label}
-          </button>
+          </Link>
         );
       })}
     </div>

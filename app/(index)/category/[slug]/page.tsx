@@ -24,8 +24,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: category.title,
-    description: category.description,
+    title: category,
+    description: `Level up web development skills through ${category.toLowerCase()}.`,
   };
 }
 
@@ -38,21 +38,18 @@ export default function CategoryPostsPage({ params, searchParams }: Props) {
     <div className="grid gap-8">
       <div className="container flex flex-col items-center gap-8">
         <h1 className="font-heading text-center text-3xl font-bold">
-          {category.title}
+          {category}
         </h1>
-        <p className="max-w-xl text-center">{category.description}</p>
+        {/* <p className="max-w-xl text-center">{category.description}</p> */}
       </div>
       <div className="no-scrollbar container overflow-x-scroll">
         <PostTagsFilter tags={postConfig.tags} className="mx-auto" />
       </div>
       <div className="container flex justify-center">
-        <SearchPostForm
-          className="max-w-96"
-          placeholder={`Search posts in ${category.id}`}
-        />
+        <SearchPostForm className="max-w-96" placeholder="Search posts" />
       </div>
       <PostList
-        fixedCategory={category.id}
+        fixedCategory={params.slug}
         searchParams={searchParams}
         className="container"
       />

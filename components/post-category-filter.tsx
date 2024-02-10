@@ -1,18 +1,17 @@
 "use client";
 
 import { HTMLAttributes, Suspense, useEffect, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useCreateQueryString } from "@/hooks/create-query-string";
-import { Category } from "@/types";
 
-import { cn } from "@/lib/utils";
+import { cn, slugify } from "@/lib/utils";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  categories: Pick<Category, "name" | "id">[];
+  categories: string[];
 }
 export function Filter({ categories, className, ...props }: Props) {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const pathname = usePathname();
   const { createQueryString } = useCreateQueryString();
 
@@ -20,7 +19,10 @@ export function Filter({ categories, className, ...props }: Props) {
 
   useEffect(() => {
     const param = searchParams.get("category");
-    if (param && categories.find(({ id: value }) => value === param)) {
+    if (
+      param &&
+      categories.find((categoryName) => slugify(categoryName) === param)
+    ) {
       setCategory(param);
     } else {
       if (category) {
@@ -31,24 +33,22 @@ export function Filter({ categories, className, ...props }: Props) {
 
   return (
     <div className={cn("flex gap-8", className)} {...props}>
-      {[{ name: "All", id: null }, ...categories].map(({ name, id }, index) => (
-        <button
+      {["All", ...categories].map((categoryName, index) => (
+        <Link
           key={index}
+          href={`${pathname}?${createQueryString({ category: categoryName === "All" ? null : slugify(categoryName), page_index: 0 })}`}
           className={cn(
-            "text-muted-foreground underline-offset-4 hover:underline",
-            { "text-foreground underline": id === category }
+            "text-muted-foreground min-w-max underline-offset-4 hover:underline",
+            {
+              "text-foreground underline":
+                slugify(categoryName) === category ||
+                (category === null && categoryName === "All"),
+            }
           )}
-          onClick={() =>
-            router.push(
-              `${pathname}?${createQueryString({ category: id, page_index: 0 })}`,
-              {
-                scroll: false,
-              }
-            )
-          }
+          scroll={false}
         >
-          {name}
-        </button>
+          {categoryName}
+        </Link>
       ))}
     </div>
   );
