@@ -70,7 +70,8 @@ export default function Page({ params }: PageProps) {
   }
 
   return (
-    <div className="container">
+    <div className="container flex flex-col gap-8">
+      <h1 className="font-heading text-4xl font-bold">{page.metadata.title}</h1>
       <Article content={page.content} className="max-w-max" />
     </div>
   );

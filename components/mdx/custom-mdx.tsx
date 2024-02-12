@@ -5,7 +5,6 @@ import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";
 import { highlight } from "sugar-high";
 
 import { slugify } from "@/lib/utils";
-import { TweetComponent } from "@/components/mdx/tweet";
 
 function CustomLink(props: any) {
   let href = props.href;
@@ -78,7 +77,6 @@ let components = {
   Image: RoundedImage,
   a: CustomLink,
   Callout,
-  StaticTweet: TweetComponent,
   code: Code,
 };
 

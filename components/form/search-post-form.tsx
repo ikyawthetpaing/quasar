@@ -55,9 +55,9 @@ function Form({
     <div className={cn("w-full max-w-56", className)} {...props}>
       <form
         onSubmit={onSubmit}
-        className="flex h-9 overflow-hidden rounded-full border"
+        className="flex h-full overflow-hidden rounded-lg border"
       >
-        <Button size="icon" variant="ghost" className="h-full rounded-full">
+        <Button size="icon" variant="ghost" className="h-full rounded-lg">
           <Icons.search className="size-4" />
         </Button>
         <Input

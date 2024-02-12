@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 interface Props {
   children: React.ReactNode;
 }
+
 export default function IndexLayout({ children }: Props) {
   return (
     <div className="flex min-h-screen flex-col">

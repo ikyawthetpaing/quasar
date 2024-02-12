@@ -1,21 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavItem } from "@/types";
 
+import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Icons } from "@/components/icons";
 import { NavItems } from "@/components/layout/nav-items";
 
 interface Props {
   navItems: NavItem[];
+  coursesChapters: Record<string, { title: string; slug: string }[]>;
 }
 
-export function MobileNavSheet({ navItems }: Props) {
+export function MobileNavSheet({ navItems, coursesChapters }: Props) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [, , courseSlug, chapterSlug] = pathname.split("/");
+  const chapters = coursesChapters[courseSlug];
+
   useEffect(() => setOpen(false), [pathname]);
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
@@ -23,11 +30,35 @@ export function MobileNavSheet({ navItems }: Props) {
           <Icons.menu className="size-7" />
         </button>
       </SheetTrigger>
-      <SheetContent side="left">
-        <NavItems
-          items={navItems}
-          className="flex h-full flex-col items-center justify-center gap-8 text-xl"
-        />
+      <SheetContent side="left" className="no-scrollbar overflow-scroll">
+        {courseSlug && chapters ? (
+          <div className="flex flex-col gap-8 pt-6">
+            <NavItems items={navItems} className="flex-wrap justify-between" />
+            <div className="flex flex-col gap-1">
+              {chapters.map(({ title, slug }, index) => (
+                <Link
+                  key={index}
+                  href={`/course/${courseSlug}/${slug}`}
+                  className={cn(
+                    "hover:border-border rounded-lg border border-transparent px-4 py-1",
+                    {
+                      "bg-secondary text-secondary-foreground":
+                        slug === chapterSlug ||
+                        (!chapterSlug && slug === "index"),
+                    }
+                  )}
+                >
+                  {title}
+                </Link>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <NavItems
+            items={navItems}
+            className="flex h-full flex-col items-center justify-center gap-8 text-xl"
+          />
+        )}
       </SheetContent>
     </Sheet>
   );

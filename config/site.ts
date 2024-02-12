@@ -4,9 +4,9 @@ import { absoluteUrl } from "@/lib/utils";
 
 export const siteConfig: SiteConfig = {
   name: "Quasar",
-  title: "Quasar: Guiding Your Journey to Success in the Web Development",
+  title: "Quasar: Learn to Code with Our Free Courses and Articles",
   description:
-    "Quasar is your go-to destination for comprehensive free courses and articles, empowering you to master the art of web development and stay ahead in this dynamic niche.",
+    "Quasar is your go-to destination for free courses and articles to help you grasp web development skills and stay ahead in this evolving field.",
   url: absoluteUrl(),
   ogImage: absoluteUrl("/og.jpg"),
   creator: "@ikyawthetpaing",

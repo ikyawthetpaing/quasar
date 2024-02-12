@@ -32,21 +32,11 @@ function getMDXFiles(dir: string) {
   return fs.readdirSync(dir).filter((file) => path.extname(file) === ".mdx");
 }
 
-function readMDXFile<T extends Record<string, string | number | boolean>>(
-  filePath: string
-) {
+export function readMDXFile<
+  T extends Record<string, string | number | boolean>,
+>(filePath: string) {
   let rawContent = fs.readFileSync(filePath, "utf-8");
   return parseFrontmatter<T>(rawContent);
-}
-
-function extractTweetIds(content: string) {
-  let tweetMatches = content.match(/<StaticTweet\sid="[0-9]+"\s\/>/g);
-  return (
-    tweetMatches?.map((tweet) => {
-      const match = tweet.match(/[0-9]+/g);
-      return match ? match[0] : null;
-    }) || []
-  );
 }
 
 export function getMDXData<T extends Record<string, string | number | boolean>>(
@@ -56,12 +46,23 @@ export function getMDXData<T extends Record<string, string | number | boolean>>(
   return mdxFiles.map((file) => {
     let { metadata, content } = readMDXFile<T>(path.join(dir, file));
     let slug = path.basename(file, path.extname(file));
-    let tweetIds = extractTweetIds(content);
     return {
       metadata,
       slug,
-      tweetIds,
       content,
     };
   });
+}
+
+export function listDirectoriesSync(dir: string) {
+  try {
+    const directories = fs
+      .readdirSync(dir, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .map((dir) => dir.name);
+
+    return directories;
+  } catch (err) {
+    console.error("Error reading directory:", err);
+  }
 }

@@ -6,7 +6,7 @@ import { slugify } from "@/lib/utils";
 export const baseConfig: BaseConfig = {
   navItems: [
     { label: "Home", url: "/" },
-    { label: "Category", url: "/category" },
+    { label: "Course", url: "/course" },
     { label: "Blog", url: "/blog" },
     { label: "About", url: "/about" },
   ],
@@ -15,9 +15,9 @@ export const baseConfig: BaseConfig = {
       title: "Pages",
       links: [
         { label: "Home", url: "/" },
+        { label: "Course", url: "/course" },
         { label: "Category", url: "/category" },
         { label: "Blog", url: "/blog" },
-        { label: "About", url: "/about" },
       ],
     },
     {

@@ -1,20 +1,31 @@
 import { IconName } from "@/types";
 
-type Course = {
+export type Course = {
   title: string;
   url: string;
+  disabled?: boolean;
   icon: IconName;
 };
 
 export const courses: Course[] = [
-  { title: "HTML", url: "", icon: "html" },
-  { title: "CSS", url: "", icon: "css" },
-  { title: "JavaScript", url: "", icon: "javascript" },
-  { title: "React", url: "", icon: "react" },
-  { title: "NodeJS", url: "", icon: "nodejs" },
-  { title: "MongoDB", url: "", icon: "mongodb" },
-  { title: "Typescript", url: "", icon: "typescript" },
-  { title: "MySQL", url: "", icon: "mysql" },
-  { title: "Python", url: "", icon: "python" },
-  { title: "Django", url: "", icon: "django" },
+  { title: "HTML", url: "/course/html", icon: "html", disabled: false },
+  { title: "CSS", url: "/course/css", icon: "css", disabled: true },
+  {
+    title: "JavaScript",
+    url: "/course/js",
+    icon: "javascript",
+    disabled: true,
+  },
+  { title: "React", url: "/course/react", icon: "react", disabled: true },
+  { title: "NodeJS", url: "/course/nodejs", icon: "nodejs", disabled: true },
+  { title: "MongoDB", url: "/course/mongodb", icon: "mongodb", disabled: true },
+  {
+    title: "Typescript",
+    url: "/course/ts",
+    icon: "typescript",
+    disabled: true,
+  },
+  { title: "MySQL", url: "/course/mysql", icon: "mysql", disabled: true },
+  { title: "Python", url: "/course/python", icon: "python", disabled: true },
+  { title: "Django", url: "/course/django", icon: "django", disabled: true },
 ];

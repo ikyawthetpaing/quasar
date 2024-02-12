@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 
-import { baseConfig } from "@/config/base";
 import { postConfig } from "@/config/post";
 import { getPostCategories } from "@/lib/content/post";
 import { SearchPostForm } from "@/components/form/search-post-form";
@@ -15,9 +14,9 @@ interface Props {
 }
 
 export const metadata: Metadata = {
-  title: "Explore Stories and Ideas on Our Blog",
+  title: "Learn to Web Development with Our Blog Posts",
   description:
-    "Discover a variety of stories and ideas on our blog, including travel, art, fashion and more.",
+    "Learn web development skills through our tutorials, articles, and blog posts",
 };
 
 export default function BlogPage({ searchParams }: Props) {
@@ -26,7 +25,7 @@ export default function BlogPage({ searchParams }: Props) {
       <section className="grid gap-8">
         <div className="container">
           <h1 className="font-heading text-center text-3xl font-bold">
-            Browse Our Articles
+            Learn to Code with Our Tutorials & Articles
           </h1>
         </div>
         <div className="grid gap-4">
