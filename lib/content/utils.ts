@@ -40,8 +40,10 @@ export function readMDXFile<
 }
 
 export function getMDXData<T extends Record<string, string | number | boolean>>(
-  dir: string
+  dir: string,
+  from: string
 ) {
+  console.log(`called getMDXData from ${from}`);
   let mdxFiles = getMDXFiles(dir);
   return mdxFiles.map((file) => {
     let { metadata, content } = readMDXFile<T>(path.join(dir, file));

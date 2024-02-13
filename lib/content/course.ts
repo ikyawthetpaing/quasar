@@ -18,6 +18,7 @@ const coursesChapters = getCoursesChapters();
 const coursesData = getCoursesData();
 
 function getCourses() {
+  console.log("calles getCourses()");
   const _courses: Record<
     string,
     {
@@ -52,7 +53,7 @@ function getCourses() {
       "chapter"
     );
 
-    const chapters = getMDXData<ChapterMetadata>(chaptersPath);
+    const chapters = getMDXData<ChapterMetadata>(chaptersPath, "getCourses");
 
     _courses[courseDir] = {
       metadata: readMDXFile<CourseMetadata>(courseIndexPath).metadata,
@@ -68,9 +69,10 @@ function getCourses() {
 }
 
 function getCourseChapter(course: string, chapter: string) {
-  const _courses =
-    process.env.NODE_ENV === "production" ? courses : getCourses();
-  return _courses[course]?.chapters[chapter];
+  // const _courses =
+  //   process.env.NODE_ENV === "production" ? courses : getCourses();
+  // return _courses[course]?.chapters[chapter];
+  return courses[course]?.chapters[chapter];
 }
 
 function getCoursesChapters() {

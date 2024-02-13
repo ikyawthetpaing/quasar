@@ -4,7 +4,8 @@ import { Author } from "@/types";
 import { getMDXData } from "./utils";
 
 const authors = getMDXData<Author>(
-  path.join(process.cwd(), "content", "author")
+  path.join(process.cwd(), "content", "author"),
+  "getAuthors"
 );
 
 export function getAuthors() {
