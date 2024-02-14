@@ -3,7 +3,6 @@ import Link from "next/link";
 import { NavItem } from "@/types";
 
 import { siteConfig } from "@/config/site";
-import { coursesChapters } from "@/lib/content/course";
 import { cn } from "@/lib/utils";
 import { SearchPostForm } from "@/components/form/search-post-form";
 import { MobileNavSheet } from "@/components/layout/mobile-nav-sheet";
@@ -29,7 +28,7 @@ export function SiteHeader({ navItems, className, ...props }: Props) {
           <div className="block md:hidden">
             <MobileNavSheet
               navItems={navItems}
-              coursesChapters={coursesChapters}
+              // coursesChapters={coursesChapters}
             />
           </div>
         </div>

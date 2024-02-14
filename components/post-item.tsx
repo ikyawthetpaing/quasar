@@ -10,12 +10,11 @@ interface Props {
 
 export function PostItem({ post }: Props) {
   const { title, category, date, slug, thumbnail } = post;
-  const url = `/blog/${slug}`;
 
   return (
     <div className="grid gap-2">
       <div className="relative aspect-video overflow-hidden rounded-2xl border">
-        <Link href={url}>
+        <Link href={slug}>
           <Image
             src={thumbnail}
             alt={title}
@@ -32,7 +31,7 @@ export function PostItem({ post }: Props) {
         </Link>
       </div>
       <p className="text-sm font-light uppercase">{formatDate(date)}</p>
-      <Link href={url}>
+      <Link href={slug}>
         <h3 className="text-xl font-bold">{title}</h3>
       </Link>
     </div>

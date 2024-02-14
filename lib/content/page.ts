@@ -1,19 +1,7 @@
-import path from "path";
-import { Page } from "@/types";
+import { allPages } from "@/.contentlayer/generated";
 
-import { getMDXData } from "@/lib/content/utils";
-
-const pages = getPages();
-
-function getPages() {
-  return getMDXData<Page>(
-    path.join(process.cwd(), "content", "page"),
-    "getPages"
-  );
-}
+const pages = allPages;
 
 export function getPage(slug: string) {
-  // const _pages = process.env.NODE_ENV === "production" ? pages : getPages();
-  // return _pages.find(({ slug: _slug }) => _slug === slug);
-  return pages.find(({ slug: _slug }) => _slug === slug);
+  return pages.find(({ slugAsParams }) => slugAsParams === slug);
 }

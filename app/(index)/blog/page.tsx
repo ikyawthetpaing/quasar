@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
-import { postConfig } from "@/config/post";
-import { getPostCategories } from "@/lib/content/post";
+import { postTags } from "@/config/post";
+import { getBlogCategories } from "@/lib/content/blog";
 import { SearchPostForm } from "@/components/form/search-post-form";
 import { PostCategoryFilter } from "@/components/post-category-filter";
 import { PostList } from "@/components/post-list";
@@ -31,11 +31,11 @@ export default function BlogPage({ searchParams }: Props) {
         <div className="grid gap-4">
           <div className="no-scrollbar container grid gap-8 overflow-x-scroll">
             <div className="flex justify-center">
-              <PostCategoryFilter categories={getPostCategories()} />
+              <PostCategoryFilter categories={getBlogCategories()} />
             </div>
           </div>
           <div className="no-scrollbar container overflow-x-scroll">
-            <PostTagsFilter tags={postConfig.tags} className="mx-auto" />
+            <PostTagsFilter tags={postTags} className="mx-auto" />
           </div>
           <div className="container flex justify-center">
             <SearchPostForm className="max-w-96" />

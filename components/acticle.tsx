@@ -2,22 +2,15 @@ import "@/styles/article.css";
 
 import { HTMLAttributes } from "react";
 
-import { cn } from "@/lib/utils";
-import { CustomMDX } from "@/components/mdx/custom-mdx";
+import { CustomMDX } from "@/components/custom-mdx";
 
 interface Props extends HTMLAttributes<HTMLElement> {
-  content: string;
+  code: string;
 }
-export function Article({ content, className, ...props }: Props) {
+export function Article({ code, className, ...props }: Props) {
   return (
-    <article
-      className={cn(
-        "prose prose-quoteless prose-neutral dark:prose-invert",
-        className
-      )}
-      {...props}
-    >
-      <CustomMDX source={content} />
+    <article className={className} {...props}>
+      <CustomMDX code={code} />
     </article>
   );
 }

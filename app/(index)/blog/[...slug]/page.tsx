@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { getAuthor } from "@/lib/content/author";
-import { getPost } from "@/lib/content/post";
+import { getBlog } from "@/lib/content/blog";
 import { updateAndGetPostViewsCount } from "@/lib/db/action/post-views";
 import { absoluteUrl, formatDate, slugify } from "@/lib/utils";
 import { Article } from "@/components/acticle";
@@ -20,7 +20,7 @@ interface PostProps {
 
 function getPostFromParams(params: PostProps["params"]) {
   const slug = params.slug.join("/");
-  const post = getPost(slug);
+  const post = getBlog(slug);
 
   if (!post) {
     null;
@@ -36,7 +36,7 @@ export function generateMetadata({ params }: PostProps): Metadata {
     return {};
   }
 
-  const { title, description, thumbnail } = post.metadata;
+  const { title, description, thumbnail } = post;
 
   const ogUrl = new URL(thumbnail);
   ogUrl.searchParams.set("title", title);
@@ -76,11 +76,17 @@ export default async function Post({ params }: PostProps) {
     notFound();
   }
 
-  const { slug, metadata } = post;
-  const { title, date, thumbnail, category, author: authorSlug } = metadata;
+  const {
+    title,
+    date,
+    thumbnail,
+    category,
+    author: authorSlug,
+    slugAsParams,
+  } = post;
   const author = getAuthor(authorSlug);
 
-  const viewsCount = await updateAndGetPostViewsCount(slug);
+  const viewsCount = await updateAndGetPostViewsCount(slugAsParams);
 
   return (
     <div className="container flex flex-col gap-12">
@@ -136,7 +142,7 @@ export default async function Post({ params }: PostProps) {
               </div>
             </div>
           </div>
-          <Article content={post.content} className="min-w-0 max-w-4xl" />
+          <Article code={post.body.code} className="min-w-0 max-w-4xl" />
         </div>
       </div>
       <div className="flex flex-col gap-8">
@@ -144,7 +150,7 @@ export default async function Post({ params }: PostProps) {
         <PostList
           fixedCategory={category}
           showPagination={false}
-          excludes={[slug]}
+          excludes={[slugAsParams]}
         />
       </div>
     </div>

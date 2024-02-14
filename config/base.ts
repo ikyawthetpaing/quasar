@@ -1,6 +1,6 @@
 import { BaseConfig } from "@/types";
 
-import { getPostCategories } from "@/lib/content/post";
+import { getBlogCategories } from "@/lib/content/blog";
 import { slugify } from "@/lib/utils";
 
 export const baseConfig: BaseConfig = {
@@ -38,6 +38,6 @@ export const baseConfig: BaseConfig = {
 
 export function getCategory(category: string) {
   return (
-    getPostCategories().find((value) => slugify(value) === category) || null
+    getBlogCategories().find((value) => slugify(value) === category) || null
   );
 }

@@ -1,9 +1,7 @@
-import { PostConfig } from "@/types";
+import { PostTag } from "@/types";
 
-export const postConfig: PostConfig = {
-  tags: [
-    { label: "Latest", value: "latest" },
-    { label: "Popular", value: "popular" },
-    { label: "Featured", value: "featured" },
-  ],
-};
+export const postTags: PostTag[] = [
+  { label: "Latest", value: "latest" },
+  { label: "Popular", value: "popular" },
+  { label: "Featured", value: "featured" },
+];
