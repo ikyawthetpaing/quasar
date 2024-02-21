@@ -30,27 +30,7 @@
 }
 
 .prose code {
-  @apply px-1 py-0.5 rounded-lg border;
-}
-
-/* .prose code > ::after,
-::before {
-  @apply hidden;
-}
-
-.prose code > ::before,
-::after {
-  @apply hidden;
-} */
-
-.prose code > ::after,
-.prose code > ::before {
-  display: none;
-}
-
-.prose code > ::before,
-.prose code > ::after {
-  display: none;
+  @apply px-1 py-0.5 rounded-lg;
 }
 
 .prose pre code {

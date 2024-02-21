@@ -31,6 +31,7 @@ export async function getCourseChapter(
   course: string,
   chapter: string
 ): Promise<ChapterContent | null> {
+  console.log("path.join(process.cwd())", path.join(process.cwd()))
   try {
     const courseData = await fs.readFile(
       path.join(process.cwd(), ".generated-content", "course", "index.json"),
