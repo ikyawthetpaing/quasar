@@ -3,7 +3,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 
-interface Chapter {
+export interface Chapter {
   index: number;
   title: string;
   slug: string;
@@ -47,7 +47,7 @@ export async function getCourseChapter(
         ".generated-content",
         "course",
         course,
-      "chapter",
+        "chapter",
         chapterFilename
       ),
       "utf-8"

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavItem } from "@/types";
 
-import { getCourseChapters } from "@/lib/content/course";
+import { Chapter, getCourseChapters } from "@/lib/content/course";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Icons } from "@/components/icons";
@@ -18,14 +18,7 @@ interface Props {
 export function MobileNavSheet({ navItems }: Props) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [chapters, setChapters] = useState<
-    {
-      index: number;
-      title: string;
-      slug: string;
-      path: string;
-    }[]
-  >([]);
+  const [chapters, setChapters] = useState<Chapter[]>([]);
   const [, , courseSlug, chapterSlug] = pathname.split("/");
 
   useEffect(() => {
