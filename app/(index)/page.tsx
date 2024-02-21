@@ -1,8 +1,8 @@
 import Link from "next/link";
+import { courses } from "@/dev/course";
 
-import { courses } from "@/config/course";
 import { siteConfig } from "@/config/site";
-import { getBlogCategories } from "@/lib/content/blog";
+import { getPostCategories } from "@/lib/content/post";
 import { CategoriesSection } from "@/components/categories-section";
 import { CousresSection } from "@/components/cousres-section";
 import { EmailSubscribeForm } from "@/components/form/email-subscribe-form";
@@ -21,7 +21,7 @@ export default function Home({ searchParams }: Props) {
     <div className="flex flex-col gap-24">
       <HeroSection />
       <CousresSection courses={courses} />
-      <CategoriesSection categories={getBlogCategories()} />
+      <CategoriesSection categories={getPostCategories()} />
       <LatestPosts searchParams={searchParams} />
       <FeaturedPostsSection />
     </div>
@@ -70,7 +70,7 @@ function LatestPosts({ searchParams }: Props) {
       </h2>
       <div className="no-scrollbar container grid gap-8 overflow-x-scroll">
         <div className="flex justify-center">
-          <PostCategoryFilter categories={getBlogCategories()} />
+          <PostCategoryFilter categories={getPostCategories()} />
         </div>
       </div>
       <PostList searchParams={searchParams} className="container" />

@@ -1,4 +1,11 @@
-import { Course } from "@/types";
+import { IconName } from "@/types";
+
+export type Course = {
+  title: string;
+  url: string;
+  disabled?: boolean;
+  icon: IconName;
+};
 
 export const courses: Course[] = [
   { title: "HTML", url: "/course/html", icon: "html", disabled: false },

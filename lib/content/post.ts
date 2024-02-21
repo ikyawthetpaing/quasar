@@ -1,12 +1,20 @@
-import { allBlogs } from "@/.contentlayer/generated";
-import { PostMetadata, PostTag } from "@/types";
+import path from "path";
+import { Post, PostMetadata, PostTag } from "@/types";
 
+import { getMDXData } from "@/lib/content/utils";
 import { getPostViewsCount } from "@/lib/db/action/post-views";
 import { slugify } from "@/lib/utils";
 
-const blogs = allBlogs;
+const posts = getPosts();
 
-export async function getBlogsMetadata({
+function getPosts() {
+  return getMDXData<Post>(
+    path.join(process.cwd(), "content", "post"),
+    "getPosts"
+  );
+}
+
+export async function getPostsMetadata({
   excludes,
   pageIndex = 0,
   perPage = 6,
@@ -21,27 +29,14 @@ export async function getBlogsMetadata({
   category?: string | null;
   query?: string | null;
 }) {
-  let postsMetadata = blogs.map(
-    ({
-      author,
-      category,
-      date,
-      description,
-      featured,
-      slug,
-      thumbnail,
-      title,
-    }) =>
+  // const _posts =
+  //   process.env.NODE_ENV === "production" ? [...posts] : getPosts();
+  let postsMetadata = posts.map(
+    ({ metadata, slug }) =>
       ({
-        author,
-        category,
-        date,
-        description,
-        featured,
         slug,
-        thumbnail,
-        title,
         views: 0,
+        ...metadata,
       }) as PostMetadata
   );
 
@@ -65,7 +60,9 @@ export async function getBlogsMetadata({
 
   switch (tag) {
     case "featured":
-      postsMetadata = postsMetadata.filter(({ featured }) => featured);
+      postsMetadata = postsMetadata.filter(
+        ({ featured }) => featured === "true"
+      );
       break;
     case "popular":
       postsMetadata = await Promise.all(
@@ -101,15 +98,20 @@ function getPageItems<T>(
   return inputArray.slice(startIndex, endIndex);
 }
 
-export function getBlog(slug: string) {
-  return blogs.find(({ slugAsParams }) => slugAsParams === slug);
+export function getPost(_slug: string) {
+  // const _posts =
+  //   process.env.NODE_ENV === "production" ? [...posts] : getPosts();
+  // return _posts.find(({ slug }) => slug === _slug);
+  return posts.find(({ slug }) => slug === _slug);
 }
 
 let blogCategories: string[] = [];
 
-export function getBlogCategories() {
+export function getPostCategories() {
   if (!(blogCategories.length > 0)) {
-    blogs.forEach(({ category }) => {
+    // const _posts =
+    //   process.env.NODE_ENV === "production" ? [...posts] : getPosts();
+    posts.forEach(({ metadata: { category } }) => {
       if (!blogCategories.includes(category)) {
         blogCategories.push(category);
       }

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavItem } from "@/types";
 
-import { getChapters } from "@/lib/content/course";
+import { getCourseChapters } from "@/lib/content/course";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Icons } from "@/components/icons";
@@ -18,7 +18,19 @@ interface Props {
 export function MobileNavSheet({ navItems }: Props) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [chapters, setChapters] = useState<
+    {
+      index: number;
+      title: string;
+      slug: string;
+      path: string;
+    }[]
+  >([]);
   const [, , courseSlug, chapterSlug] = pathname.split("/");
+
+  useEffect(() => {
+    getCourseChapters(courseSlug).then((values) => setChapters(values));
+  }, [courseSlug]);
 
   useEffect(() => setOpen(false), [pathname]);
 
@@ -30,28 +42,26 @@ export function MobileNavSheet({ navItems }: Props) {
         </button>
       </SheetTrigger>
       <SheetContent side="left" className="no-scrollbar overflow-scroll">
-        {courseSlug ? (
+        {courseSlug && chapters ? (
           <div className="flex flex-col gap-8 pt-6">
             <NavItems items={navItems} className="flex-wrap justify-between" />
             <div className="flex flex-col gap-1">
-              {getChapters(courseSlug)?.map(
-                ({ title, slugAsParams }, index) => (
-                  <Link
-                    key={index}
-                    href={`/course/${slugAsParams}`}
-                    className={cn(
-                      "hover:border-border rounded-lg border border-transparent px-4 py-1",
-                      {
-                        "bg-secondary text-secondary-foreground": chapterSlug
-                          ? slugAsParams === [courseSlug, chapterSlug].join("/")
-                          : slugAsParams === courseSlug,
-                      }
-                    )}
-                  >
-                    {title}
-                  </Link>
-                )
-              )}
+              {chapters.map(({ title, slug }, index) => (
+                <Link
+                  key={index}
+                  href={`/course/${courseSlug}/${slug}`}
+                  className={cn(
+                    "hover:border-border rounded-lg border border-transparent px-4 py-1",
+                    {
+                      "bg-secondary text-secondary-foreground":
+                        slug === chapterSlug ||
+                        (!chapterSlug && slug === "index"),
+                    }
+                  )}
+                >
+                  {title}
+                </Link>
+              ))}
             </div>
           </div>
         ) : (

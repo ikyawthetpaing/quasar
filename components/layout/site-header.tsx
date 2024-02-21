@@ -26,10 +26,7 @@ export function SiteHeader({ navItems, className, ...props }: Props) {
         <div>
           <NavItems items={navItems} className="hidden md:flex" />
           <div className="block md:hidden">
-            <MobileNavSheet
-              navItems={navItems}
-              // coursesChapters={coursesChapters}
-            />
+            <MobileNavSheet navItems={navItems} />
           </div>
         </div>
         <div className="flex justify-center">

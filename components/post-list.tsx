@@ -1,7 +1,7 @@
 import { HTMLAttributes } from "react";
 import { PostTag } from "@/types";
 
-import { getBlogsMetadata } from "@/lib/content/blog";
+import { getPostsMetadata } from "@/lib/content/post";
 import { cn, isString } from "@/lib/utils";
 import { PostItem } from "@/components/post-item";
 
@@ -43,7 +43,7 @@ export async function PostList({
     : isString(searchParams?.category)
       ? searchParams.category
       : null;
-  const { postsMetadata, pageCount } = await getBlogsMetadata({
+  const { postsMetadata, pageCount } = await getPostsMetadata({
     excludes,
     pageIndex: page_index,
     perPage: amount,

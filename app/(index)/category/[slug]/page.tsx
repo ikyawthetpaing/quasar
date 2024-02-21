@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { getCategory } from "@/config/base";
-import { postTags } from "@/config/post";
+import { postConfig } from "@/config/post";
 import { SearchPostForm } from "@/components/form/search-post-form";
 import { PostList } from "@/components/post-list";
 import { PostTagsFilter } from "@/components/post-tags-filter";
@@ -43,7 +43,7 @@ export default function CategoryPostsPage({ params, searchParams }: Props) {
         {/* <p className="max-w-xl text-center">{category.description}</p> */}
       </div>
       <div className="no-scrollbar container overflow-x-scroll">
-        <PostTagsFilter tags={postTags} className="mx-auto" />
+        <PostTagsFilter tags={postConfig.tags} className="mx-auto" />
       </div>
       <div className="container flex justify-center">
         <SearchPostForm className="max-w-96" placeholder="Search posts" />

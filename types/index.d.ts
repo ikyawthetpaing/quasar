@@ -39,7 +39,7 @@ export type Post = {
   thumbnail: string;
   category: string;
   date: string;
-  featured: boolean;
+  featured: "true" | "false";
   author: string;
 };
 
@@ -53,6 +53,10 @@ export type PostTag = {
   value: "latest" | "popular" | "featured";
 };
 
+export type PostConfig = {
+  tags: PostTag[];
+};
+
 export type Page = {
   title: string;
   description: string;
@@ -62,11 +66,4 @@ export type Author = {
   name: string;
   avatar: string;
   role: string;
-};
-
-export type Course = {
-  title: string;
-  url: string;
-  disabled?: boolean;
-  icon: IconName;
 };

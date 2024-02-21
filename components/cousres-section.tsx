@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Course } from "@/types";
+import { Course } from "@/dev/course";
 
 import { Icon } from "@/components/icons";
 

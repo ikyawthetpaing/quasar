@@ -1,7 +1,21 @@
-import { allAuthors } from "@/.contentlayer/generated";
+import path from "path";
+import { Author } from "@/types";
 
-const authors = allAuthors;
+import { getMDXData } from "./utils";
 
-export function getAuthor(slug: string) {
-  return authors.find(({ slugAsParams }) => slugAsParams === slug);
+const authors = getMDXData<Author>(
+  path.join(process.cwd(), "content", "author"),
+  "getAuthors"
+);
+
+export function getAuthors() {
+  return authors;
+}
+
+export function getAuthor(_slug: string) {
+  const author = authors.find(({ slug }) => slug === _slug);
+  if (author) {
+    return author.metadata;
+  }
+  return null;
 }

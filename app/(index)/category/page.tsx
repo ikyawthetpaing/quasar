@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { getBlogCategories } from "@/lib/content/blog";
+import { getPostCategories } from "@/lib/content/post";
 import { CategoriesSection } from "@/components/categories-section";
 
 export const metadata: Metadata = {
@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function CategoryPage() {
-  return <CategoriesSection categories={getBlogCategories()} />;
+  return <CategoriesSection categories={getPostCategories()} />;
 }

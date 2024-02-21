@@ -1,6 +1,6 @@
 import { Metadata } from "next";
+import { courses } from "@/dev/course";
 
-import { courses } from "@/config/course";
 import { CousresSection } from "@/components/cousres-section";
 import { SiteFooter } from "@/components/layout/site-footer";
 

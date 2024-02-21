@@ -1,31 +1,67 @@
-import { allChapters } from "@/.contentlayer/generated";
+"use server";
 
-const chapers = allChapters;
+import { promises as fs } from "fs";
+import path from "path";
 
-export function getChapters(course: string) {
-  const _chapters = chapers
-    .filter(({ slugAsParams }) => {
-      const [courseSlug] = slugAsParams.split("/");
-      return courseSlug === course;
-    })
-    .sort((a, b) => a.index - b.index)
-    .map(({ title, slugAsParams }) => ({
-      title,
-      slugAsParams,
-    }));
-
-  return _chapters;
+interface Chapter {
+  index: number;
+  title: string;
+  slug: string;
+  path: string;
 }
 
-export function getCourseChapter(
-  courseSlug: string,
-  chapterSlug?: string | null
-) {
-  const chapterSlugAsParams = chapterSlug
-    ? `${courseSlug}/${chapterSlug}`
-    : courseSlug;
-  return (
-    chapers.find(({ slugAsParams }) => slugAsParams === chapterSlugAsParams) ||
-    null
-  );
+interface CourseData {
+  metadata: {
+    title: string;
+    icon: string;
+  };
+  chapters: Record<string, Chapter>;
+}
+
+interface ChapterContent {
+  metadata: {
+    index: number;
+    title: string;
+  };
+  slug: string;
+  content: string;
+}
+
+export async function getCourseChapter(
+  course: string,
+  chapter: string
+): Promise<ChapterContent | null> {
+  try {
+    const courseData = await fs.readFile(
+      path.join(process.cwd(), ".generated-content", "course", "index.json"),
+      "utf-8"
+    );
+    const data: Record<string, CourseData> = JSON.parse(courseData);
+
+    const chapterPath = data[course]?.chapters[chapter]?.path;
+    if (!chapterPath) return null;
+
+    const chapterData = await fs.readFile(chapterPath, "utf-8");
+    const chapterJson: ChapterContent = JSON.parse(chapterData);
+    return chapterJson;
+  } catch (error) {
+    console.error("Error fetching course chapter:", error);
+    return null;
+  }
+}
+
+export async function getCourseChapters(course: string): Promise<Chapter[]> {
+  try {
+    const courseData = await fs.readFile(
+      path.join(process.cwd(), ".generated-content", "course", "index.json"),
+      "utf-8"
+    );
+    const data: Record<string, CourseData> = JSON.parse(courseData);
+
+    const chapters = Object.values(data[course]?.chapters || {});
+    return chapters;
+  } catch (error) {
+    console.error("Error fetching course chapters:", error);
+    return [];
+  }
 }
