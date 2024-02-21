@@ -7,7 +7,7 @@ interface Chapter {
   index: number;
   title: string;
   slug: string;
-  path: string;
+  filename: string;
 }
 
 interface CourseData {
@@ -31,7 +31,6 @@ export async function getCourseChapter(
   course: string,
   chapter: string
 ): Promise<ChapterContent | null> {
-  console.log("path.join(process.cwd())", path.join(process.cwd()))
   try {
     const courseData = await fs.readFile(
       path.join(process.cwd(), ".generated-content", "course", "index.json"),
@@ -39,10 +38,20 @@ export async function getCourseChapter(
     );
     const data: Record<string, CourseData> = JSON.parse(courseData);
 
-    const chapterPath = data[course]?.chapters[chapter]?.path;
-    if (!chapterPath) return null;
+    const chapterFilename = data[course]?.chapters[chapter]?.filename;
+    if (!chapterFilename) return null;
 
-    const chapterData = await fs.readFile(path.join(chapterPath), "utf-8");
+    const chapterData = await fs.readFile(
+      path.join(
+        process.cwd(),
+        ".generated-content",
+        "course",
+        course,
+      "chapter",
+        chapterFilename
+      ),
+      "utf-8"
+    );
     const chapterJson: ChapterContent = JSON.parse(chapterData);
     return chapterJson;
   } catch (error) {
