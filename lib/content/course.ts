@@ -41,7 +41,7 @@ export async function getCourseChapter(
     const chapterPath = data[course]?.chapters[chapter]?.path;
     if (!chapterPath) return null;
 
-    const chapterData = await fs.readFile(chapterPath, "utf-8");
+    const chapterData = await fs.readFile(path.join(chapterPath), "utf-8");
     const chapterJson: ChapterContent = JSON.parse(chapterData);
     return chapterJson;
   } catch (error) {
