@@ -19,7 +19,8 @@ export const metadata: Metadata = {
     "Learn web development skills through our tutorials, articles, and blog posts",
 };
 
-export default function BlogPage({ searchParams }: Props) {
+export default async function BlogPage({ searchParams }: Props) {
+  const categories = await getPostCategories();
   return (
     <div>
       <section className="grid gap-8">
@@ -31,7 +32,7 @@ export default function BlogPage({ searchParams }: Props) {
         <div className="grid gap-4">
           <div className="no-scrollbar container grid gap-8 overflow-x-scroll">
             <div className="flex justify-center">
-              <PostCategoryFilter categories={getPostCategories()} />
+              <PostCategoryFilter categories={categories} />
             </div>
           </div>
           <div className="no-scrollbar container overflow-x-scroll">

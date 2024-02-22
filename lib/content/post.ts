@@ -1,26 +1,49 @@
-import path from "path";
-import { Post, PostMetadata, PostTag } from "@/types";
+"use server";
 
-import { getMDXData } from "@/lib/content/utils";
+import { promises as fs } from "fs";
+import path from "path";
+import { PostTag } from "@/types";
+
 import { getPostViewsCount } from "@/lib/db/action/post-views";
 import { slugify } from "@/lib/utils";
 
-const posts = getPosts();
+const postsIndexFilePath = path.join(
+  process.cwd(),
+  ".generated-content",
+  "post",
+  "index.json"
+);
+const postCategoriesFilePath = path.join(
+  process.cwd(),
+  ".generated-content",
+  "post",
+  "categories.json"
+);
+const postDataFilePath = (slug: string) =>
+  path.join(process.cwd(), ".generated-content", "post", `${slug}.mdx.json`);
 
-function getPosts() {
-  return getMDXData<Post>(
-    path.join(process.cwd(), "content", "post"),
-    "getPosts"
-  );
+export interface PostData {
+  slug: string;
+  title: string;
+  thumbnail: string;
+  description: string;
+  category: string;
+  date: string;
+  featured: boolean;
+  author: string;
+}
+
+interface PostDataWithContent extends PostData {
+  content: string;
 }
 
 export async function getPostsMetadata({
-  excludes,
+  excludes = [],
   pageIndex = 0,
   perPage = 6,
-  tag = "latest",
-  category,
-  query,
+  tag,
+  category = null,
+  query = null,
 }: {
   excludes?: string[];
   pageIndex?: number;
@@ -29,62 +52,57 @@ export async function getPostsMetadata({
   category?: string | null;
   query?: string | null;
 }) {
-  // const _posts =
-  //   process.env.NODE_ENV === "production" ? [...posts] : getPosts();
-  let postsMetadata = posts.map(
-    ({ metadata, slug }) =>
-      ({
-        slug,
-        views: 0,
-        ...metadata,
-      }) as PostMetadata
-  );
+  try {
+    const postsData = await fs.readFile(postsIndexFilePath, "utf-8");
+    const postsJson: Record<string, PostData> = JSON.parse(postsData);
+    let postsMetadata = Object.values(postsJson).map((post) => ({
+      ...post,
+      views: 0,
+    }));
 
-  if (excludes) {
-    postsMetadata = postsMetadata.filter(
-      ({ slug }) => !excludes.includes(slug)
-    );
-  }
-
-  if (category) {
-    postsMetadata = postsMetadata.filter(
-      ({ category: _category }) => slugify(_category) === category
-    );
-  }
-
-  if (query) {
-    postsMetadata = postsMetadata.filter(({ title }) =>
-      title.toLowerCase().includes(query.toLowerCase())
-    );
-  }
-
-  switch (tag) {
-    case "featured":
+    if (excludes.length > 0) {
       postsMetadata = postsMetadata.filter(
-        ({ featured }) => featured === "true"
+        ({ slug }) => !excludes.includes(slug)
       );
-      break;
-    case "popular":
-      postsMetadata = await Promise.all(
-        postsMetadata.map(async (metadata) => {
-          const views = await getPostViewsCount(metadata.slug);
-          return { ...metadata, views };
-        })
-      );
-      postsMetadata.sort((a, b) => (b.views || 0) - (a.views || 0));
-      break;
-    case "latest":
-    default:
-      postsMetadata.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-      );
-      break;
-  }
+    }
 
-  return {
-    postsMetadata: getPageItems(postsMetadata, pageIndex, perPage),
-    pageCount: Math.ceil(postsMetadata.length / perPage),
-  };
+    if (category) {
+      postsMetadata = postsMetadata.filter(
+        ({ category: _category }) => slugify(_category) === category
+      );
+    }
+
+    if (query) {
+      postsMetadata = postsMetadata.filter(({ title }) =>
+        title.toLowerCase().includes(query.toLowerCase())
+      );
+    }
+
+    switch (tag) {
+      case "featured":
+        postsMetadata = postsMetadata.filter(({ featured }) => featured);
+        break;
+      case "popular":
+        postsMetadata = await Promise.all(
+          postsMetadata.map(async (metadata) => {
+            const views = await getPostViewsCount(metadata.slug);
+            return { ...metadata, views };
+          })
+        );
+        postsMetadata.sort((a, b) => (b.views || 0) - (a.views || 0));
+        break;
+      default:
+        break;
+    }
+
+    const paginatedItems = getPageItems(postsMetadata, pageIndex, perPage);
+    const pageCount = Math.ceil(postsMetadata.length / perPage);
+
+    return { items: paginatedItems, pageCount };
+  } catch (error) {
+    console.error("Error getting posts metadata:", error);
+    throw error; // Rethrow the error for the caller to handle
+  }
 }
 
 function getPageItems<T>(
@@ -94,28 +112,37 @@ function getPageItems<T>(
 ): T[] {
   const startIndex = pageIndex * pageSize;
   const endIndex = startIndex + pageSize;
-
   return inputArray.slice(startIndex, endIndex);
 }
 
-export function getPost(_slug: string) {
-  // const _posts =
-  //   process.env.NODE_ENV === "production" ? [...posts] : getPosts();
-  // return _posts.find(({ slug }) => slug === _slug);
-  return posts.find(({ slug }) => slug === _slug);
+export async function getPost(slug: string) {
+  try {
+    const postData = await fs.readFile(postDataFilePath(slug), "utf-8");
+    return JSON.parse(postData) as PostDataWithContent;
+  } catch (error) {
+    console.error("Error getting post:", error);
+    return null;
+  }
 }
 
-let blogCategories: string[] = [];
-
-export function getPostCategories() {
-  if (!(blogCategories.length > 0)) {
-    // const _posts =
-    //   process.env.NODE_ENV === "production" ? [...posts] : getPosts();
-    posts.forEach(({ metadata: { category } }) => {
-      if (!blogCategories.includes(category)) {
-        blogCategories.push(category);
-      }
-    });
+export async function getPostCategories() {
+  try {
+    const categoriesData = await fs.readFile(postCategoriesFilePath, "utf-8");
+    const categoriesJson = JSON.parse(categoriesData);
+    return Object.values(categoriesJson) as string[];
+  } catch (error) {
+    console.error("Error getting post categories:", error);
+    return [];
   }
-  return blogCategories;
+}
+
+export async function getPostCategory(slug: string) {
+  try {
+    const categoriesData = await fs.readFile(postCategoriesFilePath, "utf-8");
+    const categoriesJson: Record<string, string> = JSON.parse(categoriesData);
+    return categoriesJson[slug] || null;
+  } catch (error) {
+    console.error("Error getting post category:", error);
+    return null;
+  }
 }

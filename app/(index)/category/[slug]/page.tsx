@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getCategory } from "@/config/base";
 import { postConfig } from "@/config/post";
+import { getPostCategory } from "@/lib/content/post";
 import { SearchPostForm } from "@/components/form/search-post-form";
 import { PostList } from "@/components/post-list";
 import { PostTagsFilter } from "@/components/post-tags-filter";
@@ -17,7 +17,7 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const category = getCategory(params.slug);
+  const category = await getPostCategory(params.slug);
 
   if (!category) {
     return {};
@@ -29,8 +29,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function CategoryPostsPage({ params, searchParams }: Props) {
-  const category = getCategory(params.slug);
+export default async function CategoryPostsPage({
+  params,
+  searchParams,
+}: Props) {
+  const category = await getPostCategory(params.slug);
 
   if (!category) notFound();
 

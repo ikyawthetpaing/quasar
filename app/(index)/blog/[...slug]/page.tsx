@@ -5,12 +5,12 @@ import { notFound } from "next/navigation";
 
 import { getAuthor } from "@/lib/content/author";
 import { getPost } from "@/lib/content/post";
-import { updateAndGetPostViewsCount } from "@/lib/db/action/post-views";
 import { absoluteUrl, formatDate, slugify } from "@/lib/utils";
 import { Article } from "@/components/acticle";
 import { Icons } from "@/components/icons";
 import { NavigateBackButton } from "@/components/navigate-back-button";
 import { PostList } from "@/components/post-list";
+import { PostViewCounter } from "@/components/post-view-counter";
 
 interface PostProps {
   params: {
@@ -18,9 +18,9 @@ interface PostProps {
   };
 }
 
-function getPostFromParams(params: PostProps["params"]) {
+async function getPostFromParams(params: PostProps["params"]) {
   const slug = params.slug.join("/");
-  const post = getPost(slug);
+  const post = await getPost(slug);
 
   if (!post) {
     null;
@@ -29,14 +29,16 @@ function getPostFromParams(params: PostProps["params"]) {
   return post;
 }
 
-export function generateMetadata({ params }: PostProps): Metadata {
-  const post = getPostFromParams(params);
+export async function generateMetadata({
+  params,
+}: PostProps): Promise<Metadata> {
+  const post = await getPostFromParams(params);
 
   if (!post) {
     return {};
   }
 
-  const { title, description, thumbnail } = post.metadata;
+  const { title, description, thumbnail } = post;
 
   const ogUrl = new URL(thumbnail);
   ogUrl.searchParams.set("title", title);
@@ -70,17 +72,14 @@ export function generateMetadata({ params }: PostProps): Metadata {
 }
 
 export default async function Post({ params }: PostProps) {
-  const post = getPostFromParams(params);
+  const post = await getPostFromParams(params);
 
   if (!post) {
     notFound();
   }
 
-  const { slug, metadata } = post;
-  const { title, date, thumbnail, category, author: authorSlug } = metadata;
-  const author = getAuthor(authorSlug);
-
-  const viewsCount = await updateAndGetPostViewsCount(slug);
+  const { slug, title, date, thumbnail, category, author: authorSlug } = post;
+  const author = await getAuthor(authorSlug);
 
   return (
     <div className="container flex flex-col gap-12">
@@ -99,8 +98,7 @@ export default async function Post({ params }: PostProps) {
             {title}
           </h1>
           <p className="text-muted-foreground text-center">
-            {formatDate(date)} &#8226; {viewsCount}{" "}
-            {viewsCount > 1 ? "views" : "view"}
+            {formatDate(date)} &#8226; <PostViewCounter slug={slug} />
           </p>
           <div className="grid aspect-video overflow-hidden rounded-xl">
             <Image

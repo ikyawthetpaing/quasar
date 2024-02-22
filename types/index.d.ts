@@ -33,24 +33,24 @@ export type SiteConfig = {
   keywords: string[];
 };
 
-export type Post = {
-  title: string;
-  description: string;
-  thumbnail: string;
-  category: string;
-  date: string;
-  featured: "true" | "false";
-  author: string;
-};
+// export type Post = {
+//   title: string;
+//   description: string;
+//   thumbnail: string;
+//   category: string;
+//   date: string;
+//   featured: boolean;
+//   author: string;
+// };
 
-export type PostMetadata = Post & {
-  slug: string;
-  views: number;
-};
+// export type PostMetadata = Post & {
+//   slug: string;
+//   views: number;
+// };
 
 export type PostTag = {
   label: string;
-  value: "latest" | "popular" | "featured";
+  value: "popular" | "featured";
 };
 
 export type PostConfig = {

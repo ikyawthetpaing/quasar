@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PostMetadata } from "@/types";
 
+import { PostData } from "@/lib/content/post";
 import { formatDate, slugify } from "@/lib/utils";
 
 interface Props {
-  post: PostMetadata;
+  post: PostData;
 }
 
 export function PostItem({ post }: Props) {

@@ -2,7 +2,7 @@
 
 import { HTMLAttributes, Suspense, useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useCreateQueryString } from "@/hooks/create-query-string";
 import { PostTag } from "@/types";
 
@@ -13,7 +13,6 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 function Filter({ tags, className, ...props }: Props) {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const pathname = usePathname();
   const { createQueryString } = useCreateQueryString();
 
@@ -32,8 +31,8 @@ function Filter({ tags, className, ...props }: Props) {
 
   return (
     <div className={cn("flex w-max rounded-full border", className)} {...props}>
-      {tags.map(({ label, value }) => {
-        const isActive = value === tag || (!tag && value === "latest");
+      {[{ label: "Latest", value: null }, ...tags].map(({ label, value }) => {
+        const isActive = value === tag;
         return (
           <Link
             key={value}

@@ -9,6 +9,6 @@ export const metadata: Metadata = {
     "Discover a wealth of information, tutorials, and free web development blog posts.",
 };
 
-export default function CategoryPage() {
-  return <CategoriesSection categories={getPostCategories()} />;
+export default async function CategoryPage() {
+  return <CategoriesSection categories={await getPostCategories()} />;
 }

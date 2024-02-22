@@ -1,8 +1,5 @@
 import { BaseConfig } from "@/types";
 
-import { getPostCategories } from "@/lib/content/post";
-import { slugify } from "@/lib/utils";
-
 export const baseConfig: BaseConfig = {
   navItems: [
     { label: "Home", url: "/" },
@@ -35,9 +32,3 @@ export const baseConfig: BaseConfig = {
     { label: "Cookie Policy", url: "/cookiepolicy" },
   ],
 };
-
-export function getCategory(category: string) {
-  return (
-    getPostCategories().find((value) => slugify(value) === category) || null
-  );
-}

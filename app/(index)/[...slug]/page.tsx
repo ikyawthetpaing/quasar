@@ -11,9 +11,9 @@ interface PageProps {
   };
 }
 
-function getPageFromParams(params: PageProps["params"]) {
+async function getPageFromParams(params: PageProps["params"]) {
   const slug = params.slug.join("/");
-  const page = getPage(slug);
+  const page = await getPage(slug);
 
   if (!page) {
     null;
@@ -22,14 +22,16 @@ function getPageFromParams(params: PageProps["params"]) {
   return page;
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
-  const page = getPageFromParams(params);
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const page = await getPageFromParams(params);
 
   if (!page) {
     return {};
   }
 
-  const { title, description } = page.metadata;
+  const { title, description, slug } = page;
 
   const ogUrl = new URL(absoluteUrl("/api/og"));
   ogUrl.searchParams.set("title", title);
@@ -43,7 +45,7 @@ export function generateMetadata({ params }: PageProps): Metadata {
       title: title,
       description: description,
       type: "article",
-      url: absoluteUrl(page.slug),
+      url: absoluteUrl(slug),
       images: [
         {
           url: ogUrl.toString(),
@@ -62,8 +64,8 @@ export function generateMetadata({ params }: PageProps): Metadata {
   };
 }
 
-export default function Page({ params }: PageProps) {
-  const page = getPageFromParams(params);
+export default async function Page({ params }: PageProps) {
+  const page = await getPageFromParams(params);
 
   if (!page) {
     notFound();
@@ -71,7 +73,7 @@ export default function Page({ params }: PageProps) {
 
   return (
     <div className="container flex flex-col gap-8">
-      <h1 className="font-heading text-4xl font-bold">{page.metadata.title}</h1>
+      <h1 className="font-heading text-4xl font-bold">{page.title}</h1>
       <Article content={page.content} className="max-w-max" />
     </div>
   );

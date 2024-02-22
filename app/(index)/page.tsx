@@ -16,13 +16,14 @@ interface Props {
   };
 }
 
-export default function Home({ searchParams }: Props) {
+export default async function Home({ searchParams }: Props) {
+  const categories = await getPostCategories();
   return (
     <div className="flex flex-col gap-24">
       <HeroSection />
       <CousresSection courses={courses} />
-      <CategoriesSection categories={getPostCategories()} />
-      <LatestPosts searchParams={searchParams} />
+      <CategoriesSection categories={categories} />
+      <LatestPosts searchParams={searchParams} categories={categories} />
       <FeaturedPostsSection />
     </div>
   );
@@ -62,7 +63,12 @@ function FeaturedPostsSection() {
   );
 }
 
-function LatestPosts({ searchParams }: Props) {
+function LatestPosts({
+  searchParams,
+  categories,
+}: Props & {
+  categories: string[];
+}) {
   return (
     <section className="grid gap-8">
       <h2 className="font-heading text-center text-2xl font-bold sm:text-3xl">
@@ -70,7 +76,7 @@ function LatestPosts({ searchParams }: Props) {
       </h2>
       <div className="no-scrollbar container grid gap-8 overflow-x-scroll">
         <div className="flex justify-center">
-          <PostCategoryFilter categories={getPostCategories()} />
+          <PostCategoryFilter categories={categories} />
         </div>
       </div>
       <PostList searchParams={searchParams} className="container" />

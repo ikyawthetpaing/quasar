@@ -6,7 +6,7 @@
     "dev": "npm run generate-content && next dev",
     "build": "npm run generate-content && next build",
     "start": "npm run generate-content && next start",
-    "generate-content": "node lib/content/generate.mjs",
+    "generate-content": "node lib/content/generate/index.mjs",
     "lint": "next lint --ignore-path .gitignore",
     "lint:fix": "next lint --fix . --ignore-path .gitignore",
     "format": "prettier --write . --ignore-path .gitignore",
