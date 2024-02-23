@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { courses } from "@/dev/course";
 
 import { siteConfig } from "@/config/site";
+import { getCoursesMetadata } from "@/lib/content/course";
 import { getPostCategories } from "@/lib/content/post";
 import { CategoriesSection } from "@/components/categories-section";
 import { CousresSection } from "@/components/cousres-section";
 import { EmailSubscribeForm } from "@/components/form/email-subscribe-form";
-import { Icon, Icons } from "@/components/icons";
+import { Icons } from "@/components/icons";
 import { PostCategoryFilter } from "@/components/post-category-filter";
 import { PostList } from "@/components/post-list";
 
@@ -18,6 +18,7 @@ interface Props {
 
 export default async function Home({ searchParams }: Props) {
   const categories = await getPostCategories();
+  const courses = await getCoursesMetadata();
   return (
     <div className="flex flex-col gap-24">
       <HeroSection />

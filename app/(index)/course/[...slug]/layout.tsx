@@ -20,7 +20,11 @@ export default async function CourseChapteLayout({ params, children }: Props) {
           {chapters?.map(({ title, slug }, index) => (
             <Link
               key={index}
-              href={`/course/${courseSlug}/${slug}`}
+              href={
+                slug === "index"
+                  ? `/course/${courseSlug}`
+                  : `/course/${courseSlug}/${slug}`
+              }
               className={cn(
                 "hover:border-border rounded-lg border border-transparent px-4 py-1",
                 {

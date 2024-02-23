@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getCourseChapter, getCourseChapters } from "@/lib/content/course";
+import { getChapterContent, getCourseChapters } from "@/lib/content/course";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Article } from "@/components/acticle";
@@ -16,7 +16,7 @@ interface Props {
 
 async function getChapterFromParams(params: Props["params"]) {
   const [courseSlug, chapterSlug] = params.slug;
-  const post = await getCourseChapter(
+  const post = await getChapterContent(
     courseSlug,
     chapterSlug ? chapterSlug : "index"
   );

@@ -1,8 +1,7 @@
 import { Metadata } from "next";
-import { courses } from "@/dev/course";
 
+import { getCoursesMetadata } from "@/lib/content/course";
 import { CousresSection } from "@/components/cousres-section";
-import { SiteFooter } from "@/components/layout/site-footer";
 
 export const metadata: Metadata = {
   title: "Learn Web Development with Our Free Courses",
@@ -10,6 +9,6 @@ export const metadata: Metadata = {
     "Master web developement skills with our free, step-by-step courses.",
 };
 
-export default function CoursesPage() {
-  return <CousresSection courses={courses} />;
+export default async function CoursesPage() {
+  return <CousresSection courses={await getCoursesMetadata()} />;
 }

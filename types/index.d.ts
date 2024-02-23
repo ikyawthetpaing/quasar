@@ -33,21 +33,6 @@ export type SiteConfig = {
   keywords: string[];
 };
 
-// export type Post = {
-//   title: string;
-//   description: string;
-//   thumbnail: string;
-//   category: string;
-//   date: string;
-//   featured: boolean;
-//   author: string;
-// };
-
-// export type PostMetadata = Post & {
-//   slug: string;
-//   views: number;
-// };
-
 export type PostTag = {
   label: string;
   value: "popular" | "featured";
@@ -55,15 +40,4 @@ export type PostTag = {
 
 export type PostConfig = {
   tags: PostTag[];
-};
-
-export type Page = {
-  title: string;
-  description: string;
-};
-
-export type Author = {
-  name: string;
-  avatar: string;
-  role: string;
 };
