@@ -1,15 +1,20 @@
+import { HTMLAttributes } from "react";
 import Link from "next/link";
 
 import { CourseMetadata } from "@/lib/content/course";
+import { cn } from "@/lib/utils";
 import { Icon } from "@/components/icons";
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   courses: CourseMetadata[];
 }
 
-export function CousresSection({ courses }: Props) {
+export function CousresSection({ courses, className, ...props }: Props) {
   return (
-    <section className="container flex flex-col gap-8">
+    <section
+      className={cn("container flex flex-col gap-8", className)}
+      {...props}
+    >
       <h2 className="font-heading text-center text-2xl font-bold sm:text-3xl">
         Learn Web Developement with Our Free Courses
       </h2>

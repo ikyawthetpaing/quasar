@@ -22,7 +22,7 @@ const postCategoriesFilePath = path.join(
 const postDataFilePath = (slug: string) =>
   path.join(process.cwd(), ".generated-content", "post", `${slug}.mdx.json`);
 
-export interface PostData {
+export interface Post {
   slug: string;
   title: string;
   thumbnail: string;
@@ -33,7 +33,7 @@ export interface PostData {
   author: string;
 }
 
-interface PostDataWithContent extends PostData {
+interface PostWithContent extends Post {
   content: string;
 }
 
@@ -54,7 +54,7 @@ export async function getPostsMetadata({
 }) {
   try {
     const postsData = await fs.readFile(postsIndexFilePath, "utf-8");
-    const postsJson: Record<string, PostData> = JSON.parse(postsData);
+    const postsJson: Record<string, Post> = JSON.parse(postsData);
     let postsMetadata = Object.values(postsJson).map((post) => ({
       ...post,
       views: 0,
@@ -101,7 +101,7 @@ export async function getPostsMetadata({
     return { items: paginatedItems, pageCount };
   } catch (error) {
     console.error("Error getting posts metadata:", error);
-    throw error; // Rethrow the error for the caller to handle
+    return { items: [], pageCount: 0 };
   }
 }
 
@@ -118,7 +118,7 @@ function getPageItems<T>(
 export async function getPost(slug: string) {
   try {
     const postData = await fs.readFile(postDataFilePath(slug), "utf-8");
-    return JSON.parse(postData) as PostDataWithContent;
+    return JSON.parse(postData) as PostWithContent;
   } catch (error) {
     console.error("Error getting post:", error);
     return null;

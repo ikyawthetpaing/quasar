@@ -5,7 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavItem } from "@/types";
 
-import { Chapter, getCourseChapters } from "@/lib/content/course";
+import { siteConfig } from "@/config/site";
+import {
+  Chapter,
+  getCourseChapters,
+  getCourseTitle,
+} from "@/lib/content/course";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Icons } from "@/components/icons";
@@ -19,10 +24,14 @@ export function MobileNavSheet({ navItems }: Props) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [chapters, setChapters] = useState<Chapter[]>([]);
+  const [courseTitle, setCourseTitle] = useState<string | null>(null);
   const [, , courseSlug, chapterSlug] = pathname.split("/");
 
   useEffect(() => {
-    getCourseChapters(courseSlug).then((values) => setChapters(values));
+    if (courseSlug) {
+      getCourseChapters(courseSlug).then((values) => setChapters(values));
+      getCourseTitle(courseSlug).then((value) => setCourseTitle(value));
+    }
   }, [courseSlug]);
 
   useEffect(() => setOpen(false), [pathname]);
@@ -34,34 +43,39 @@ export function MobileNavSheet({ navItems }: Props) {
           <Icons.menu className="size-7" />
         </button>
       </SheetTrigger>
-      <SheetContent side="left" className="no-scrollbar overflow-scroll">
-        {courseSlug && chapters ? (
-          <div className="flex flex-col gap-8 pt-6">
-            <NavItems items={navItems} className="flex-wrap justify-between" />
-            <div className="flex flex-col gap-1">
+      <SheetContent
+        side="left"
+        className="no-scrollbar flex flex-col gap-8 overflow-scroll px-8"
+      >
+        <div>
+          <Link href="/" className="font-heading text-2xl font-bold">
+            {siteConfig.name}
+          </Link>
+        </div>
+        <NavItems items={navItems} className="flex-col gap-3 text-base" />
+        {courseTitle && chapters.length > 0 && (
+          <div className="grid gap-3">
+            <h3 className="text-lg font-medium">{courseTitle} Chapters</h3>
+            <ul className="flex flex-col gap-3">
               {chapters.map(({ title, slug }, index) => (
-                <Link
-                  key={index}
-                  href={`/course/${courseSlug}/${slug}`}
-                  className={cn(
-                    "hover:border-border rounded-lg border border-transparent px-4 py-1",
-                    {
-                      "bg-secondary text-secondary-foreground":
-                        slug === chapterSlug ||
-                        (!chapterSlug && slug === "index"),
-                    }
-                  )}
-                >
-                  {title}
-                </Link>
+                <li key={index}>
+                  <Link
+                    href={`/course/${courseSlug}/${slug}`}
+                    className={cn(
+                      "text-muted-foreground underline-offset-4 hover:underline",
+                      {
+                        "underline text-foreground":
+                          slug === chapterSlug ||
+                          (!chapterSlug && slug === "index"),
+                      }
+                    )}
+                  >
+                    {title}
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
-        ) : (
-          <NavItems
-            items={navItems}
-            className="flex h-full flex-col items-center justify-center gap-8 text-xl"
-          />
         )}
       </SheetContent>
     </Sheet>

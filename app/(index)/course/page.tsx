@@ -10,5 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CoursesPage() {
-  return <CousresSection courses={await getCoursesMetadata()} />;
+  return (
+    <CousresSection courses={await getCoursesMetadata()} className="mt-16" />
+  );
 }

@@ -20,7 +20,7 @@ export default async function Home({ searchParams }: Props) {
   const categories = await getPostCategories();
   const courses = await getCoursesMetadata();
   return (
-    <div className="flex flex-col gap-24">
+    <div className="mt-16 flex flex-col gap-24">
       <HeroSection />
       <CousresSection courses={courses} />
       <CategoriesSection categories={categories} />
@@ -55,7 +55,7 @@ function FeaturedPostsSection() {
       <div className="flex justify-center">
         <Link
           href={"/blog?tag=featured"}
-          className="flex items-center gap-2 text-base duration-150 hover:gap-4"
+          className="flex items-center gap-2 rounded-xl border px-4 py-2 text-base duration-150 hover:gap-4"
         >
           View all <Icons.moveRight className="size-4" />
         </Link>
@@ -75,10 +75,11 @@ function LatestPosts({
       <h2 className="font-heading text-center text-2xl font-bold sm:text-3xl">
         Our Latest Posts
       </h2>
-      <div className="no-scrollbar container grid gap-8 overflow-x-scroll">
-        <div className="flex justify-center">
-          <PostCategoryFilter categories={categories} />
-        </div>
+      <div className="no-scrollbar container grid overflow-x-scroll">
+        <PostCategoryFilter
+          categories={categories}
+          className="justify-center"
+        />
       </div>
       <PostList searchParams={searchParams} className="container" />
     </section>

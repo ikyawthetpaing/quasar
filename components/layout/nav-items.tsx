@@ -10,7 +10,7 @@ interface Props extends HTMLAttributes<HTMLUListElement> {
 
 export function NavItems({ items, className, ...props }: Props) {
   return (
-    <nav className="h-full">
+    <nav>
       <ul className={cn("flex gap-4", className)} {...props}>
         {items.map(({ label, url }, index) => (
           <li key={index}>

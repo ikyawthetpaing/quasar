@@ -80,6 +80,18 @@ export async function getCoursesMetadata() {
   }
 }
 
+export async function getCourseTitle(courseSlug: string) {
+  try {
+    const coursesMetadata = await getCoursesMetadata();
+    return (
+      coursesMetadata.find(({ slug }) => slug === courseSlug)?.title || null
+    );
+  } catch (error) {
+    console.error(`Error fetching for course title:`, error);
+    return null;
+  }
+}
+
 const getChapterFilePath = (course: string, chapter: string) =>
   path.join(
     process.cwd(),
