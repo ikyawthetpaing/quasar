@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { postConfig } from "@/config/post";
 import { getPostCategory } from "@/lib/content/post";
+import { absoluteUrl } from "@/lib/utils";
 import { SearchPostForm } from "@/components/form/search-post-form";
 import { PostList } from "@/components/post-list";
 import { PostTagsFilter } from "@/components/post-tags-filter";
@@ -23,9 +24,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {};
   }
 
+  const title = category;
+  const description = `Level up web development skills through ${category.toLowerCase()}.`;
+
   return {
-    title: category,
-    description: `Level up web development skills through ${category.toLowerCase()}.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      url: absoluteUrl(`/category/${params.slug}`),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   };
 }
 

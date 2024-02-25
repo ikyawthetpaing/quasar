@@ -33,33 +33,19 @@ export async function generateMetadata({
 
   const { title, description, slug } = page;
 
-  const ogUrl = new URL(absoluteUrl("/api/og"));
-  ogUrl.searchParams.set("title", title);
-  ogUrl.searchParams.set("type", description);
-  ogUrl.searchParams.set("mode", "light");
-
   return {
-    title: title,
-    description: description,
+    title,
+    description,
     openGraph: {
-      title: title,
-      description: description,
+      title,
+      description,
       type: "article",
-      url: absoluteUrl(slug),
-      images: [
-        {
-          url: ogUrl.toString(),
-          width: 1920,
-          height: 1080,
-          alt: title,
-        },
-      ],
+      url: absoluteUrl(`/${slug}`),
     },
     twitter: {
       card: "summary_large_image",
-      title: title,
-      description: description,
-      images: [ogUrl.toString()],
+      title,
+      description,
     },
   };
 }

@@ -2,6 +2,7 @@ import { Metadata } from "next";
 
 import { postConfig } from "@/config/post";
 import { getPostCategories } from "@/lib/content/post";
+import { absoluteUrl } from "@/lib/utils";
 import { SearchPostForm } from "@/components/form/search-post-form";
 import { PostCategoryFilter } from "@/components/post-category-filter";
 import { PostList } from "@/components/post-list";
@@ -13,11 +14,26 @@ interface Props {
   };
 }
 
-export const metadata: Metadata = {
-  title: "Learn to Web Development with Our Blog Posts",
-  description:
-    "Learn web development skills through our tutorials, articles, and blog posts",
-};
+export function generateMetadata(): Metadata {
+  const title = "Learn to Web Development with Our Blog Posts";
+  const description =
+    "Learn web development skills through our tutorials, articles, and blog posts";
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      url: absoluteUrl("/blog"),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
 
 export default async function BlogPage({ searchParams }: Props) {
   const categories = await getPostCategories();

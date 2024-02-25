@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { getChapterContent, getCourseChapters } from "@/lib/content/course";
-import { cn } from "@/lib/utils";
+import { absoluteUrl, cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Article } from "@/components/acticle";
 import { Icons } from "@/components/icons";
@@ -16,25 +16,42 @@ interface Props {
 
 async function getChapterFromParams(params: Props["params"]) {
   const [courseSlug, chapterSlug] = params.slug;
-  const post = await getChapterContent(
+  const chapter = await getChapterContent(
     courseSlug,
     chapterSlug ? chapterSlug : "index"
   );
 
-  return post;
+  return chapter;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const [courseSlug] = params.slug;
   const chapter = await getChapterFromParams(params);
 
   if (!chapter) {
     return {};
   }
 
-  const { title } = chapter.metadata;
+  const {
+    metadata: { title },
+    slug,
+  } = chapter;
 
   return {
-    title: title,
+    title,
+    openGraph: {
+      title: title,
+      type: "article",
+      url: absoluteUrl(
+        slug === "index"
+          ? `/course/${courseSlug}`
+          : `/course/${courseSlug}/${slug}`
+      ),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: title,
+    },
   };
 }
 

@@ -91,6 +91,7 @@ export default async function Post({ params }: PostProps) {
           <Link
             href={`/category/${slugify(category)}`}
             className="rounded-lg border px-3 py-1 text-sm capitalize"
+            title="Category"
           >
             {category}
           </Link>
