@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,7 +11,10 @@ interface Props {
 
 export function PostItem({ post }: Props) {
   const { title, category, date, slug, thumbnail } = post;
-  const url = `/blog/${slug}`;
+  const currentUrl = headers().get("x-url");
+  const url = currentUrl
+    ? `/blog/${slug}?back=${encodeURIComponent(currentUrl)}`
+    : `/blog/${slug}`;
 
   return (
     <div className="grid gap-2">

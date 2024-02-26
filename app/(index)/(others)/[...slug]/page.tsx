@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { getPage } from "@/lib/content/page";
 import { absoluteUrl } from "@/lib/utils";
-import { Article } from "@/components/acticle";
+import { Mdx } from "@/components/mdx";
 
 interface PageProps {
   params: {
@@ -58,9 +58,9 @@ export default async function Page({ params }: PageProps) {
   }
 
   return (
-    <div className="container flex flex-col gap-8">
+    <article className="container flex flex-col gap-8">
       <h1 className="font-heading text-4xl font-bold">{page.title}</h1>
-      <Article content={page.content} className="max-w-max" />
-    </div>
+      <Mdx content={page.content} className="max-w-max" />
+    </article>
   );
 }

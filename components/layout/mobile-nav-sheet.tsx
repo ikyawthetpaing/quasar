@@ -25,14 +25,14 @@ export function MobileNavSheet({ navItems }: Props) {
   const [open, setOpen] = useState(false);
   const [chapters, setChapters] = useState<Chapter[]>([]);
   const [courseTitle, setCourseTitle] = useState<string | null>(null);
-  const [, , courseSlug, chapterSlug] = pathname.split("/");
+  const [, path, courseSlug, chapterSlug] = pathname.split("/");
 
   useEffect(() => {
-    if (courseSlug) {
+    if (path === "course" && courseSlug) {
       getCourseChapters(courseSlug).then((values) => setChapters(values));
       getCourseTitle(courseSlug).then((value) => setCourseTitle(value));
     }
-  }, [courseSlug]);
+  }, [courseSlug, path]);
 
   useEffect(() => setOpen(false), [pathname]);
 

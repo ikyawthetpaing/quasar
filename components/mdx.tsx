@@ -1,10 +1,12 @@
-import React, { HTMLAttributes } from "react";
+import "@/styles/mdx.css";
+
+import { createElement, HTMLAttributes, ReactNode } from "react";
 import Image, { ImageProps } from "next/image";
 import Link from "next/link";
 import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";
 import { highlight } from "sugar-high";
 
-import { slugify } from "@/lib/utils";
+import { cn, slugify } from "@/lib/utils";
 
 function CustomLink(props: any) {
   let href = props.href;
@@ -50,13 +52,13 @@ function Code({ children, ...props }: HTMLAttributes<HTMLElement>) {
 
 function createHeading(level: number) {
   // eslint-disable-next-line react/display-name
-  return ({ children }: { children: React.ReactNode }) => {
+  return ({ children }: { children: ReactNode }) => {
     let slug = slugify(children?.toString() || "");
-    return React.createElement(
+    return createElement(
       `h${level}`,
       { id: slug },
       [
-        React.createElement("a", {
+        createElement("a", {
           href: `#${slug}`,
           key: `link-${slug}`,
           className: "anchor",
@@ -80,12 +82,30 @@ let components = {
   code: Code,
 };
 
-export function CustomMDX({ ...props }: MDXRemoteProps) {
+function CustomMDX({ ...props }: MDXRemoteProps) {
   return (
     <MDXRemote
       {...props}
       // @ts-ignore
       components={{ ...components, ...(props.components || {}) }}
     />
+  );
+}
+
+interface Props extends HTMLAttributes<HTMLElement> {
+  content: string;
+}
+
+export function Mdx({ content, className, ...props }: Props) {
+  return (
+    <div
+      className={cn(
+        "prose prose-quoteless prose-neutral dark:prose-invert",
+        className
+      )}
+      {...props}
+    >
+      <CustomMDX source={content} />
+    </div>
   );
 }

@@ -5,16 +5,20 @@ import { notFound } from "next/navigation";
 
 import { getAuthor } from "@/lib/content/author";
 import { getPost } from "@/lib/content/post";
+import { generateTableOfContents } from "@/lib/toc";
 import { absoluteUrl, formatDate, slugify } from "@/lib/utils";
-import { Article } from "@/components/acticle";
 import { Icons } from "@/components/icons";
-import { NavigateBackButton } from "@/components/navigate-back-button";
+import { Mdx } from "@/components/mdx";
 import { PostList } from "@/components/post-list";
 import { PostViewCounter } from "@/components/post-view-counter";
+import { TableOfContents } from "@/components/table-of-contents";
 
 interface PostProps {
   params: {
     slug: string[];
+  };
+  searchParams?: {
+    [key: string]: string | string[] | undefined;
   };
 }
 
@@ -71,21 +75,39 @@ export async function generateMetadata({
   };
 }
 
-export default async function Post({ params }: PostProps) {
+export default async function Post({ params, searchParams }: PostProps) {
   const post = await getPostFromParams(params);
 
   if (!post) {
     notFound();
   }
 
-  const { slug, title, date, thumbnail, category, author: authorSlug } = post;
+  const {
+    slug,
+    title,
+    date,
+    thumbnail,
+    category,
+    author: authorSlug,
+    content,
+  } = post;
   const author = await getAuthor(authorSlug);
+  const tocItems = generateTableOfContents(content);
+  const backurl =
+    typeof searchParams?.back === "string" ? searchParams.back : null;
 
   return (
     <div className="container flex flex-col gap-12">
-      <div className="flex flex-col gap-8">
+      <article className="flex flex-col gap-8">
         <div>
-          <NavigateBackButton />
+          <Link
+            href={backurl ? backurl : "/blog"}
+            className="flex items-center gap-2"
+            scroll={false}
+          >
+            <Icons.arrowLeft className="size-4" />
+            Back
+          </Link>
         </div>
         <div className="flex flex-col items-center gap-4">
           <Link
@@ -112,8 +134,8 @@ export default async function Post({ params }: PostProps) {
           </div>
         </div>
         <div className="flex gap-8 max-sm:flex-col">
-          <div className="sm:flex-1">
-            <div className="flex flex-col gap-4 border-b pb-4 pt-0 sm:min-w-max sm:pt-4">
+          <div className="flex flex-col gap-8 pt-0 sm:min-w-max sm:flex-1 sm:pt-4 ">
+            <div className="flex flex-col gap-4">
               <h2 className="font-heading font-bold">Written by</h2>
               <div className="flex items-center gap-3">
                 <div className="bg-muted size-14 shrink-0 overflow-hidden rounded-full">
@@ -134,10 +156,11 @@ export default async function Post({ params }: PostProps) {
                 </div>
               </div>
             </div>
+            <TableOfContents tocItems={tocItems} />
           </div>
-          <Article content={post.content} className="min-w-0 max-w-4xl" />
+          <Mdx content={content} className="min-w-0 max-w-4xl" />
         </div>
-      </div>
+      </article>
       <div className="flex flex-col gap-8">
         <h2 className="font-heading text-3xl font-bold">Related Posts</h2>
         <PostList

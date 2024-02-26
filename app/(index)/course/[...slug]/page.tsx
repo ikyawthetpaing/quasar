@@ -5,8 +5,8 @@ import { notFound } from "next/navigation";
 import { getChapterContent, getCourseChapters } from "@/lib/content/course";
 import { absoluteUrl, cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { Article } from "@/components/acticle";
 import { Icons } from "@/components/icons";
+import { Mdx } from "@/components/mdx";
 
 interface Props {
   params: {
@@ -62,6 +62,11 @@ export default async function CoursePage({ params }: Props) {
     notFound();
   }
 
+  const {
+    content,
+    metadata: { title },
+  } = chapter;
+
   const [courseSlug] = params.slug;
   const chapters = await getCourseChapters(courseSlug);
   const prevChapterIndex = parseInt(chapter.metadata.index.toString()) - 1;
@@ -72,11 +77,9 @@ export default async function CoursePage({ params }: Props) {
     nextChapterIndex < chapters.length ? chapters[nextChapterIndex] : null;
 
   return (
-    <section>
-      <h1 className="text-3xl font-bold sm:text-4xl">
-        {chapter.metadata.title}
-      </h1>
-      <Article content={chapter.content} className="max-w-max" />
+    <article>
+      <h1 className="text-3xl font-bold sm:text-4xl">{title}</h1>
+      <Mdx content={content} className="max-w-max" />
       <hr className="mt-6" />
       <div className="mt-6 flex flex-wrap justify-between gap-4">
         {prevChapter && (
@@ -99,6 +102,6 @@ export default async function CoursePage({ params }: Props) {
           </Link>
         )}
       </div>
-    </section>
+    </article>
   );
 }
