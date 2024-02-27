@@ -73,6 +73,11 @@ pre {
   scrollbar-width: none; /* Firefox */
 }
 
+code::after,
+code::before {
+  @apply hidden;
+}
+
 /* Remove Safari input shadow on mobile */
 input[type="text"],
 input[type="email"] {
@@ -81,24 +86,11 @@ input[type="email"] {
   appearance: none;
 }
 
-.prose .tweet a {
-  text-decoration: inherit;
-  font-weight: 500;
-}
-
 table {
   display: block;
   max-width: fit-content;
   overflow-x: auto;
   white-space: nowrap;
-}
-
-.prose .callout > p {
-  margin: 0 !important;
-}
-
-.title {
-  text-wrap: balance;
 }
 
 .prose h1,

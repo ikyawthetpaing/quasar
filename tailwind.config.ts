@@ -26,6 +26,7 @@ const config = {
     extend: {
       fontFamily: {
         heading: ['"Montserrat Alternates"', "sans-serif"],
+        mono: ['"JetBrains Mono"', "sans-serif"],
       },
       typography: {
         quoteless: {
