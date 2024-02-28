@@ -31,8 +31,16 @@ export function MobileNavSheet({ navItems }: Props) {
     if (path === "course" && courseSlug) {
       getCourseChapters(courseSlug).then((values) => setChapters(values));
       getCourseTitle(courseSlug).then((value) => setCourseTitle(value));
+      console.log("update state");
+    } else {
+      if (chapters.length) {
+        setChapters([]);
+      }
+      if (courseTitle) {
+        setCourseTitle(null);
+      }
     }
-  }, [courseSlug, path]);
+  }, [chapters.length, courseSlug, courseTitle, path]);
 
   useEffect(() => setOpen(false), [pathname]);
 
