@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Post } from "@/lib/content/post";
-import { formatDate, slugify } from "@/lib/utils";
+import { absoluteUrl, formatDate, slugify } from "@/lib/utils";
 
 interface Props {
   post: Post;
@@ -11,10 +11,9 @@ interface Props {
 
 export function PostItem({ post }: Props) {
   const { title, category, date, slug, thumbnail } = post;
-  const currentUrl = headers().get("x-url");
-  const url = currentUrl
-    ? `/blog/${slug}?back=${encodeURIComponent(currentUrl)}`
-    : `/blog/${slug}`;
+  const parsedUrl = new URL(headers().get("x-url") || absoluteUrl("/blog"));
+  const pathAndQuery = parsedUrl.pathname + parsedUrl.search;
+  const url = `/blog/${slug}?back=${pathAndQuery}`;
 
   return (
     <div className="grid gap-2">

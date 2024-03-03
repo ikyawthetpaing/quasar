@@ -38,28 +38,14 @@ export function generateMetadata(): Metadata {
 export default async function BlogPage({ searchParams }: Props) {
   const categories = await getPostCategories();
   return (
-    <div>
-      <section className="grid gap-8">
-        <div className="container">
-          <h1 className="font-heading text-center text-3xl font-bold">
-            Learn to Code with Our Tutorials & Articles
-          </h1>
-        </div>
-        <div className="grid gap-4">
-          <div className="no-scrollbar container grid gap-8 overflow-x-scroll">
-            <div className="flex justify-center">
-              <PostCategoryFilter categories={categories} />
-            </div>
-          </div>
-          <div className="no-scrollbar container overflow-x-scroll">
-            <PostTagsFilter tags={postConfig.tags} className="mx-auto" />
-          </div>
-          <div className="container flex justify-center">
-            <SearchPostForm className="max-w-96" />
-          </div>
-        </div>
-        <PostList searchParams={searchParams} className="container" />
-      </section>
-    </div>
+    <section className="container grid gap-8">
+      <h1 className="font-heading text-center text-3xl font-bold">
+        Learn to Code with Our Tutorials & Articles
+      </h1>
+      <PostCategoryFilter categories={categories} className="mx-auto" />
+      <PostTagsFilter tags={postConfig.tags} className="mx-auto" />
+      <SearchPostForm className="mx-auto h-10 max-w-96" />
+      <PostList searchParams={searchParams} />
+    </section>
   );
 }

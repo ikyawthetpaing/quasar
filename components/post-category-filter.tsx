@@ -32,15 +32,18 @@ export function Filter({ categories, className, ...props }: Props) {
   }, [categories, category, searchParams]);
 
   return (
-    <div className={cn("flex gap-8", className)} {...props}>
+    <div
+      className={cn("flex max-w-4xl flex-wrap justify-center gap-1", className)}
+      {...props}
+    >
       {["All", ...categories].map((categoryName, index) => (
         <Link
           key={index}
           href={`${pathname}?${createQueryString({ category: categoryName === "All" ? null : slugify(categoryName), page_index: 0 })}`}
           className={cn(
-            "text-muted-foreground min-w-max underline-offset-4 hover:underline",
+            "min-w-max rounded-xl border px-3 py-1.5 duration-150 hover:px-4",
             {
-              "text-foreground underline":
+              "bg-primary text-primary-foreground px-4":
                 slugify(categoryName) === category ||
                 (category === null && categoryName === "All"),
             }

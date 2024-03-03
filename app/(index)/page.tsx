@@ -20,10 +20,10 @@ export default async function Home({ searchParams }: Props) {
   const categories = await getPostCategories();
   const courses = await getCoursesMetadata();
   return (
-    <div className="mt-16 flex flex-col gap-24">
+    <div className="container mt-16 flex flex-col gap-24">
       <HeroSection />
       <CousresSection courses={courses} />
-      <CategoriesSection categories={categories} />
+      <CategoriesSection categories={categories} className="mx-auto" />
       <LatestPosts searchParams={searchParams} categories={categories} />
       <FeaturedPostsSection />
     </div>
@@ -32,7 +32,7 @@ export default async function Home({ searchParams }: Props) {
 
 function HeroSection() {
   return (
-    <section className="container flex flex-col items-center gap-8 text-center">
+    <section className="flex flex-col items-center gap-8 text-center">
       <h1 className="font-heading max-w-6xl text-4xl font-bold sm:text-5xl md:text-6xl">
         See our free web development courses, tutorials, and insights.
       </h1>
@@ -47,7 +47,7 @@ function HeroSection() {
 
 function FeaturedPostsSection() {
   return (
-    <section className="container grid gap-8">
+    <section className="grid gap-8">
       <h2 className="font-heading text-center text-2xl font-bold sm:text-3xl">
         Featured Posts
       </h2>
@@ -75,13 +75,8 @@ function LatestPosts({
       <h2 className="font-heading text-center text-2xl font-bold sm:text-3xl">
         Our Latest Posts
       </h2>
-      <div className="no-scrollbar container grid overflow-x-scroll">
-        <PostCategoryFilter
-          categories={categories}
-          className="justify-center"
-        />
-      </div>
-      <PostList searchParams={searchParams} className="container" />
+      <PostCategoryFilter categories={categories} className="mx-auto" />
+      <PostList searchParams={searchParams} />
     </section>
   );
 }

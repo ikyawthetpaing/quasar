@@ -30,19 +30,16 @@ function Filter({ tags, className, ...props }: Props) {
   }, [searchParams, tag, tags]);
 
   return (
-    <div className={cn("flex w-max rounded-full border", className)} {...props}>
+    <div className={cn("flex w-max rounded-lg border", className)} {...props}>
       {[{ label: "Latest", value: null }, ...tags].map(({ label, value }) => {
         const isActive = value === tag;
         return (
           <Link
             key={value}
             href={`${pathname}?${createQueryString({ tag: value, page_index: 0 })}`}
-            className={cn(
-              "text-muted-foreground rounded-full px-4 py-1 text-sm",
-              {
-                "bg-primary text-primary-foreground": isActive,
-              }
-            )}
+            className={cn("text-muted-foreground rounded-lg px-4 py-1", {
+              "bg-primary text-primary-foreground": isActive,
+            })}
             scroll={false}
           >
             {label}

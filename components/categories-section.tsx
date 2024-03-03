@@ -1,14 +1,18 @@
+import { HTMLAttributes } from "react";
 import Link from "next/link";
 
-import { slugify } from "@/lib/utils";
+import { cn, slugify } from "@/lib/utils";
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   categories: string[];
 }
 
-export function CategoriesSection({ categories }: Props) {
+export function CategoriesSection({ categories, className, ...props }: Props) {
   return (
-    <section className="container flex flex-col gap-8">
+    <section
+      className={cn("flex max-w-4xl flex-col gap-8", className)}
+      {...props}
+    >
       <h2 className="font-heading text-center text-2xl font-bold sm:text-3xl">
         Blog Categories
       </h2>

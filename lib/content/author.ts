@@ -7,6 +7,7 @@ interface AuthorData {
   name: string;
   avatar: string;
   role: string;
+  website: string;
 }
 
 export async function getAuthor(slug: string) {

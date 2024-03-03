@@ -26,5 +26,10 @@ export function generateMetadata(): Metadata {
 }
 
 export default async function CategoryPage() {
-  return <CategoriesSection categories={await getPostCategories()} />;
+  return (
+    <CategoriesSection
+      categories={await getPostCategories()}
+      className="container"
+    />
+  );
 }

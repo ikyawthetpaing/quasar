@@ -11,10 +11,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 export function CousresSection({ courses, className, ...props }: Props) {
   return (
-    <section
-      className={cn("container flex flex-col gap-8", className)}
-      {...props}
-    >
+    <section className={cn("flex flex-col gap-8", className)} {...props}>
       <h2 className="font-heading text-center text-2xl font-bold sm:text-3xl">
         Learn Web Developement with Our Free Courses
       </h2>

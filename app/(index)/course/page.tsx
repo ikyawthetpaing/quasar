@@ -27,6 +27,9 @@ export function generateMetadata(): Metadata {
 
 export default async function CoursesPage() {
   return (
-    <CousresSection courses={await getCoursesMetadata()} className="mt-16" />
+    <CousresSection
+      courses={await getCoursesMetadata()}
+      className="container mt-16"
+    />
   );
 }

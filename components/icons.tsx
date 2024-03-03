@@ -7,8 +7,10 @@ import {
   ChevronsRight,
   Facebook,
   Instagram,
+  Linkedin,
   Loader2,
   LucideProps,
+  Mail,
   Menu,
   MoveRight,
   Newspaper,
@@ -41,6 +43,8 @@ export const Icons = {
   spinner: Loader2,
   newspaper: Newspaper,
   moveRight: MoveRight,
+  linkedin: Linkedin,
+  mail: Mail,
   check: ({ ...props }: LucideProps) => (
     <svg
       viewBox="0 0 24 24"
