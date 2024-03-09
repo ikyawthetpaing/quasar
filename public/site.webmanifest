@@ -1,7 +1,7 @@
 {
-  "name": "Quasar: Learn to Code with Our Free Courses and Articles",
+  "name": "Quasar: Explore Our Thoughts, Stories and Ideas",
   "short_name": "Quasar",
-  "description": "Quasar is your go-to destination for free courses and articles to help you grasp web development skills and stay ahead in this evolving field.",
+  "description": "A community-driven platform sharing captivating stories that impact on our lives, careers, and the world.",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -25,13 +25,13 @@
   "form_factor": "wide",
   "related_applications": [],
   "categories": [
-    "Tutorials & How-To Guides",
-    "Design Inspiration & Trends",
-    "Tools & Resources",
-    "Case Studies & Portfolio Reviews",
-    "Coding Tips & Tricks",
-    "Industry News & Updates",
-    "UX/UI Design",
-    "Freelancing & Career Development"
+    "Travel",
+    "Art",
+    "Fashion",
+    "Lifestyle",
+    "Food",
+    "Tech",
+    "Health",
+    "Science"
   ]
 }

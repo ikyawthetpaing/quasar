@@ -21,5 +21,5 @@ export async function updateAndGetPostViewsCount(
 
 export async function getPostViewsCount(slug: string): Promise<number> {
   const postViews = await PostViews.findOne({ slug });
-  return postViews ? postViews.count : 0;
+  return postViews.count || 0;
 }

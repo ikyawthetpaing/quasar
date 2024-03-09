@@ -1,8 +1,7 @@
 "use client";
 
 import { HTMLAttributes, Suspense, useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCreateQueryString } from "@/hooks/create-query-string";
 import { PostTag } from "@/types";
 
@@ -13,6 +12,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 function Filter({ tags, className, ...props }: Props) {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const pathname = usePathname();
   const { createQueryString } = useCreateQueryString();
 
@@ -30,20 +30,29 @@ function Filter({ tags, className, ...props }: Props) {
   }, [searchParams, tag, tags]);
 
   return (
-    <div className={cn("flex w-max rounded-lg border", className)} {...props}>
-      {[{ label: "Latest", value: null }, ...tags].map(({ label, value }) => {
-        const isActive = value === tag;
+    <div className={cn("flex w-max rounded-full border", className)} {...props}>
+      {tags.map(({ label, value }) => {
+        const isActive = value === tag || (!tag && value === "latest");
         return (
-          <Link
+          <button
             key={value}
-            href={`${pathname}?${createQueryString({ tag: value, page_index: 0 })}`}
-            className={cn("text-muted-foreground rounded-lg px-4 py-1", {
-              "bg-primary text-primary-foreground": isActive,
-            })}
-            scroll={false}
+            className={cn(
+              "text-muted-foreground rounded-full px-4 py-1 text-sm",
+              {
+                "bg-primary text-primary-foreground": isActive,
+              }
+            )}
+            onClick={() =>
+              router.push(
+                `${pathname}?${createQueryString({ tag: value, page_index: 0 })}`,
+                {
+                  scroll: false,
+                }
+              )
+            }
           >
             {label}
-          </Link>
+          </button>
         );
       })}
     </div>

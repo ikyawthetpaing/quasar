@@ -1,28 +1,20 @@
-"use server";
-
-import { promises as fs } from "fs";
 import path from "path";
+import { Author } from "@/types";
 
-interface AuthorData {
-  name: string;
-  avatar: string;
-  role: string;
-  website: string;
+import { getMDXData } from "./utils";
+
+const authors = getMDXData<Author>(
+  path.join(process.cwd(), "content", "author")
+);
+
+export function getAuthors() {
+  return authors;
 }
 
-export async function getAuthor(slug: string) {
-  try {
-    const filePath = path.join(
-      process.cwd(),
-      ".generated-content",
-      "author",
-      `${slug}.mdx.json`
-    );
-    const authorData = await fs.readFile(filePath, "utf-8");
-    const authorJson = JSON.parse(authorData) as AuthorData;
-    return authorJson;
-  } catch (error) {
-    console.log(error);
-    return null;
+export function getAuthor(_slug: string) {
+  const author = authors.find(({ slug }) => slug === _slug);
+  if (author) {
+    return author.metadata;
   }
+  return null;
 }
